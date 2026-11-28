@@ -26,6 +26,7 @@ def _sv_testbench(lanes: int) -> str:
 
     values = {
         "LANES": str(lanes),
+        "WORD_WIDTH": str(width),
         "A0": packed(row(3, 7)),
         "B0": packed(row(1, 5)),
         "ALAST": packed(row(9, 11)),
@@ -33,7 +34,7 @@ def _sv_testbench(lanes: int) -> str:
         "ALASTNEW": packed(row(2, 3)),
         "BMID": packed(row(6, 9)),
     }
-    template = r"""\`timescale 1ns/1ps
+    template = r"""`timescale 1ns/1ps
 module tb;
     parameter integer LANES = @LANES@;
     localparam integer WORD_WIDTH = LANES * 4;
@@ -65,58 +66,58 @@ module tb;
             // Initialize address zero in both operand memories.
             @(negedge clk);
             wr_addr = 0; a_we = 1; b_we = 1;
-            a_wdata = WORD_WIDTH'h@A0@;
-            b_wdata = WORD_WIDTH'h@B0@;
+            a_wdata = @WORD_WIDTH@'h@A0@;
+            b_wdata = @WORD_WIDTH@'h@B0@;
             @(posedge clk); #1;
 
             // Exercise the final legal address in both memories.
             @(negedge clk);
             wr_addr = DEPTH - 1;
-            a_wdata = WORD_WIDTH'h@ALAST@;
-            b_wdata = WORD_WIDTH'h@BLAST@;
+            a_wdata = @WORD_WIDTH@'h@ALAST@;
+            b_wdata = @WORD_WIDTH@'h@BLAST@;
             @(posedge clk); #1;
 
             // Concurrent compute read and host write at different addresses.
             // Only A writes; B must retain its final-address word.
             @(negedge clk);
             wr_addr = DEPTH - 1; rd_addr = 0; rd_en = 1;
-            a_we = 1; b_we = 0; a_wdata = WORD_WIDTH'h@ALASTNEW@;
+            a_we = 1; b_we = 0; a_wdata = @WORD_WIDTH@'h@ALASTNEW@;
             @(posedge clk); #1;
-            if (a_rd_data !== WORD_WIDTH'h@A0@)
+            if (a_rd_data !== @WORD_WIDTH@'h@A0@)
                 $fatal(1, "A synchronous read/packed alignment mismatch");
-            if (b_rd_data !== WORD_WIDTH'h@B0@)
+            if (b_rd_data !== @WORD_WIDTH@'h@B0@)
                 $fatal(1, "B synchronous read/packed alignment mismatch");
 
             // Read back the boundary address after the A-only write.
             @(negedge clk);
             a_we = 0; b_we = 0; rd_addr = DEPTH - 1;
             @(posedge clk); #1;
-            if (a_rd_data !== WORD_WIDTH'h@ALASTNEW@)
+            if (a_rd_data !== @WORD_WIDTH@'h@ALASTNEW@)
                 $fatal(1, "A final-address write/read mismatch");
-            if (b_rd_data !== WORD_WIDTH'h@BLAST@)
+            if (b_rd_data !== @WORD_WIDTH@'h@BLAST@)
                 $fatal(1, "B independent write-enable isolation mismatch");
 
             // Write B only at an interior address while reading A/B address 0.
             @(negedge clk);
             wr_addr = 1; rd_addr = 0; a_we = 0; b_we = 1;
-            b_wdata = WORD_WIDTH'h@BMID@;
+            b_wdata = @WORD_WIDTH@'h@BMID@;
             @(posedge clk); #1;
-            if (a_rd_data !== WORD_WIDTH'h@A0@)
+            if (a_rd_data !== @WORD_WIDTH@'h@A0@)
                 $fatal(1, "A changed during B-only write");
-            if (b_rd_data !== WORD_WIDTH'h@B0@)
+            if (b_rd_data !== @WORD_WIDTH@'h@B0@)
                 $fatal(1, "B changed before interior-address read");
 
             @(negedge clk);
             b_we = 0; rd_addr = 1;
             @(posedge clk); #1;
-            if (b_rd_data !== WORD_WIDTH'h@BMID@)
+            if (b_rd_data !== @WORD_WIDTH@'h@BMID@)
                 $fatal(1, "B interior-address packed-word mismatch");
 
             // Read enable low must retain the registered output.
             @(negedge clk);
             rd_en = 0; rd_addr = 0;
             @(posedge clk); #1;
-            if (b_rd_data !== WORD_WIDTH'h@BMID@)
+            if (b_rd_data !== @WORD_WIDTH@'h@BMID@)
                 $fatal(1, "read data did not hold while rd_en was low");
 
             $display("PASS scratchpad LANES=%0d DEPTH=%0d WIDTH=%0d",
