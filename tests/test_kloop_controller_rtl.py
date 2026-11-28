@@ -16,7 +16,7 @@ SCRATCHPAD = ROOT / "orcus" / "rtl" / "orcus_operand_scratchpad.sv"
 
 def _testbench(lanes: int) -> str:
     cfg = TileConfig(lanes)
-    return r"""\`timescale 1ns/1ps
+    template = r"""`timescale 1ns/1ps
 module tb;
     localparam integer LANES = @LANES@;
     localparam integer WIDTH = LANES * 4;
@@ -226,12 +226,9 @@ module tb;
     end
 endmodule
 """
-    return (_testbench_template
+    return (template
             .replace("@LANES@", str(lanes))
             .replace("@LATENCY@", str(cfg.core_latency_cycles)))
-
-
-_testbench_template = _testbench(32) if False else None
 
 
 @unittest.skipUnless(shutil.which("iverilog") and shutil.which("vvp"),
