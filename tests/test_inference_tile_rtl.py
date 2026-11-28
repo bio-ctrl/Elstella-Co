@@ -1,6 +1,8 @@
 """Cycle-accurate M4.4 integration tests for the complete ORCUS inference tile."""
 from __future__ import annotations
 
+import hashlib
+import json
 import shutil
 import subprocess
 import tempfile
@@ -9,13 +11,35 @@ from pathlib import Path
 
 from orcus.dadda_pipeline import generate_dadda_pipelined
 from orcus.inference_tile import (
-    TileConfig, mac_accumulator_bounds, signed_bounds,
+    TileConfig, mac_accumulator_bounds, signed_bounds, signed_int4_mac_accumulate,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
 RTL = ROOT / "orcus" / "rtl" / "orcus_inference_tile.sv"
 SCRATCHPAD = ROOT / "orcus" / "rtl" / "orcus_operand_scratchpad.sv"
 CONTROLLER = ROOT / "orcus" / "rtl" / "orcus_kloop_controller.sv"
+
+
+def _golden_row(address: int, lanes: int, operand: str, mode: int = 0) -> tuple[int, ...]:
+    if mode == 1:
+        return (-8,) * lanes
+    if mode == 2 and operand == "a":
+        return (7,) * lanes
+    if mode == 2 and operand == "b":
+        return (-8,) * lanes
+    multiplier, offset = ((3, 8) if operand == "a" else (7, 2))
+    lane_multiplier = 5 if operand == "a" else 3
+    values = []
+    for lane in range(lanes):
+        nibble = (address * multiplier + lane * lane_multiplier + offset) & 15
+        values.append(nibble - 16 if nibble >= 8 else nibble)
+    return tuple(values)
+
+
+def _golden_mac(base: int, count: int, lanes: int, mode: int = 0) -> int:
+    a_rows = [_golden_row(base + row, lanes, "a", mode) for row in range(count)]
+    b_rows = [_golden_row(base + row, lanes, "b", mode) for row in range(count)]
+    return signed_int4_mac_accumulate(a_rows, b_rows, lanes)
 
 
 def _testbench(lanes: int) -> str:
@@ -36,6 +60,7 @@ module tb;
     reg [KW-1:0] k_length = 0;
     reg [WIDTH-1:0] a_wdata = 0, b_wdata = 0;
     integer integer_mode = 0;
+    reg signed [31:0] expected_vectors [0:511];
     wire busy, done, result_valid;
     wire signed [19:0] result_data;
 
@@ -72,34 +97,6 @@ module tb;
         end
     endfunction
 
-    function integer signed row_dot(input integer address);
-        integer lane, av, bv, total;
-        reg [WIDTH-1:0] aword, bword;
-        begin
-            aword = pattern_a(address);
-            bword = pattern_b(address);
-            total = 0;
-            for (lane = 0; lane < LANES; lane = lane + 1) begin
-                av = (aword >> (lane*4)) & 15;
-                bv = (bword >> (lane*4)) & 15;
-                if (av >= 8) av = av - 16;
-                if (bv >= 8) bv = bv - 16;
-                total = total + av*bv;
-            end
-            row_dot = total;
-        end
-    endfunction
-
-    function integer signed mac_value(input integer base, input integer count);
-        integer row, total;
-        begin
-            total = 0;
-            for (row = 0; row < count; row = row + 1)
-                total = total + row_dot(base + row);
-            mac_value = total;
-        end
-    endfunction
-
     task write_all_rows;
         integer address;
         begin
@@ -115,10 +112,9 @@ module tb;
         end
     endtask
 
-    task run_request(input integer base, input integer count);
-        integer expected, timeout;
+    task run_request(input integer base, input integer count, input integer expected);
+        integer timeout;
         begin
-            expected = mac_value(base, count);
             @(negedge clk);
             base_addr = base; k_length = count; start = 1;
             @(posedge clk); #1;
@@ -143,8 +139,8 @@ module tb;
     task test_completion_edge_chain;
         integer first_expected, second_expected, wait_cycles, timeout;
         begin
-            first_expected = mac_value(2, 2);
-            second_expected = mac_value(9, 1);
+            first_expected = @CHAIN_FIRST_EXPECTED@;
+            second_expected = @CHAIN_SECOND_EXPECTED@;
             @(negedge clk);
             base_addr = 2; k_length = 2; start = 1;
             @(posedge clk); #1;
@@ -179,14 +175,15 @@ module tb;
         @(posedge clk); #1;
         @(negedge clk); reset = 0;
         write_all_rows();
+        @EXPECTED_VECTOR_INIT@
 
         // 512 back-to-back memory-fed transactions for each lane geometry.
         for (i = 0; i < 512; i = i + 1) begin
             base = (i*13) % (DEPTH-8);
             count = 1 + (i % 7);
-            run_request(base, count);
+            run_request(base, count, expected_vectors[i]);
         end
-        run_request(0, DEPTH);
+        run_request(0, DEPTH, @FULL_MODE0_EXPECTED@);
 
         // Reset during an active full-depth burst must flush all in-flight work.
         @(negedge clk); base_addr = 0; k_length = DEPTH; start = 1;
@@ -219,13 +216,13 @@ module tb;
         // Exhaustive signed extrema at full depth: +262144 and -229376.
         integer_mode = 1;
         write_all_rows();
-        run_request(0, DEPTH);
+        run_request(0, DEPTH, @FULL_MODE1_EXPECTED@);
         if ($signed(result_data) !== (64*LANES*DEPTH))
             $fatal(1, "positive full-depth extremum mismatch LANES=%0d", LANES);
 
         integer_mode = 2;
         write_all_rows();
-        run_request(0, DEPTH);
+        run_request(0, DEPTH, @FULL_MODE2_EXPECTED@);
         if ($signed(result_data) !== (-56*LANES*DEPTH))
             $fatal(1, "negative full-depth extremum mismatch LANES=%0d", LANES);
 
@@ -235,6 +232,16 @@ module tb;
     end
 endmodule
 """
+    expected_init = "\n".join(
+        f"        expected_vectors[{i}] = {_golden_mac((i*13) % (cfg.memory_depth_words-8), 1+(i%7), lanes)};"
+        for i in range(512)
+    )
+    template = template.replace("@EXPECTED_VECTOR_INIT@", expected_init)
+    template = template.replace("@CHAIN_FIRST_EXPECTED@", str(_golden_mac(2, 2, lanes)))
+    template = template.replace("@CHAIN_SECOND_EXPECTED@", str(_golden_mac(9, 1, lanes)))
+    template = template.replace("@FULL_MODE0_EXPECTED@", str(_golden_mac(0, cfg.maximum_k, lanes)))
+    template = template.replace("@FULL_MODE1_EXPECTED@", str(_golden_mac(0, cfg.maximum_k, lanes, 1)))
+    template = template.replace("@FULL_MODE2_EXPECTED@", str(_golden_mac(0, cfg.maximum_k, lanes, 2)))
     return (template.replace("@LANES@", str(lanes))
             .replace("@LATENCY@", str(cfg.core_latency_cycles)))
 
@@ -243,7 +250,13 @@ endmodule
                      "Icarus Verilog is required")
 class InferenceTileRTLTests(unittest.TestCase):
     def test_all_geometries_memory_fed_transactions_and_extrema(self) -> None:
+        reports = []
         for lanes in (4, 8, 16, 32):
+            cfg = TileConfig(lanes)
+            expected_vectors = [
+                _golden_mac((i*13) % (cfg.memory_depth_words-8), 1+(i%7), lanes)
+                for i in range(512)
+            ]
             with self.subTest(lanes=lanes), tempfile.TemporaryDirectory() as temp:
                 temp_path = Path(temp)
                 generated = temp_path / f"orcus_dadda_pipelined_{lanes}.sv"
@@ -266,6 +279,26 @@ class InferenceTileRTLTests(unittest.TestCase):
                 self.assertEqual(run_result.returncode, 0,
                                  run_result.stdout + run_result.stderr)
                 self.assertIn(f"PASS inference tile LANES={lanes}", run_result.stdout)
+                reports.append({
+                    "lanes": lanes,
+                    "depth": cfg.maximum_k,
+                    "memory_fed_transactions": 512,
+                    "golden_oracle": "orcus.inference_tile.signed_int4_mac_accumulate",
+                    "expected_vector_sha256": hashlib.sha256(
+                        json.dumps(expected_vectors, separators=(",", ":")).encode()
+                    ).hexdigest(),
+                    "full_depth_mode0_expected": _golden_mac(0, cfg.maximum_k, lanes),
+                    "full_depth_positive_extremum_expected": _golden_mac(0, cfg.maximum_k, lanes, 1),
+                    "full_depth_negative_extremum_expected": _golden_mac(0, cfg.maximum_k, lanes, 2),
+                    "simulation_stdout": run_result.stdout.strip(),
+                })
+        evidence_dir = Path(tempfile.gettempdir()) / "orcus-inference-tile-m4-4"
+        evidence_dir.mkdir(parents=True, exist_ok=True)
+        (evidence_dir / "results.json").write_text(json.dumps({
+            "schema": "orcus-m4-4-inference-tile-regression-v1",
+            "status": "PASS",
+            "geometries": reports,
+        }, indent=2) + "\n")
 
     def test_twenty_bit_accumulator_bounds_for_every_geometry(self) -> None:
         minimum, maximum = signed_bounds(20)
