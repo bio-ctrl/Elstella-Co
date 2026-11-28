@@ -27,7 +27,7 @@ module tb;
 
     reg clk = 0;
     always #5 clk = ~clk;
-    reg reset = 0, start = 0, a_we = 0, b_we = 0, pipeline_done = 0;
+    reg reset = 1, start = 0, a_we = 0, b_we = 0, pipeline_done = 0;
     reg [AW-1:0] base_addr = 0, wr_addr = 0;
     reg [KW-1:0] k_length = 0;
     reg [WIDTH-1:0] a_wdata = 0, b_wdata = 0;
@@ -145,6 +145,10 @@ module tb;
 
     integer address;
     initial begin
+        // Establish defined controller state before any request or memory write.
+        @(posedge clk); #1;
+        @(negedge clk); reset = 0;
+
         // Initialize all addresses used by the directed tests, including
         // the final legal word, with independent A/B deterministic patterns.
         for (address = 0; address < 8; address = address + 1)
