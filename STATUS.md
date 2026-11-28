@@ -1,26 +1,28 @@
 # EGS — Engineering Status
 
-> **PERMANENT SESSION-START AND HANDOFF RULE:** At the start of EVERY new ChatGPT session, and immediately whenever the founder says **"let's start today"**, first fetch and read the latest `STATUS.md` from the `main` branch of `bio-ctrl/EGS`. Do not rely on chat history, remembered summaries, stale copies, or a user-supplied prior SHA. Treat this file as the authoritative engineering handoff. Resume from the exact active milestone and next action recorded below (currently **Milestone #3 — PR #21, ECP5 FPGA place-and-route validation**). Obey all repository, project-boundary, evidence, and safety rules in this file. Never fabricate measurements or claim unverified work. Preserve all failure and timeout history. **After EVERY repository action, experiment, diagnostic, failure, timeout, or milestone, update and commit this `STATUS.md` directly on `main` before proceeding. This rule is permanent across sessions.** Do not modify unrelated project files when the requested task is a STATUS-only update.
+> **PERMANENT SESSION-START AND HANDOFF RULE:** At the start of every EGS/ORCUS/Lugh session, fetch and read the latest `STATUS.md` from `main` before repository action. Do not rely on chat history or stale summaries. Record meaningful EGS-related decisions, work, diagnostics, failures, blockers, evidence status, and the exact next action in this file after each relevant session/action. Preserve history; never fabricate measurements or claim unverified work.
 
-> **NON-NEGOTIABLE PROJECT BOUNDARIES:** Work only within EGS/ORCUS when authorized. NEM is a separate sister company/venture: no mixed code, roadmaps, or assumptions. Ceres is a separate project and must NEVER be touched, inspected, modified, merged, renamed, or mixed into EGS/ORCUS. Do not force-push, delete history, or merge a PR without explicit authorization and verified gates.
+> **NON-NEGOTIABLE PROJECT BOUNDARIES:** EGS and ORCUS are the active advanced-computing initiative. NEM is a separate sister venture: no mixed code, roadmaps, or assumptions. Ceres is a separate project and must NEVER be touched, inspected, modified, merged, renamed, or mixed into EGS/ORCUS. Historical Xylenic and ELSTELLA/PROJECT ORIGIN work is retained as repository history, not silently treated as active EGS/ORCUS product scope. Do not force-push, delete history, or merge a PR without explicit authorization and verified gates.
 
-> **MISSION:** EGS is the parent semiconductor and advanced-computing company, aspiring to compete alongside Nvidia and AMD over the long term. Build exceptional computing architectures first, then expand toward the infrastructure needed to support them. This is a strategic ambition, not a claim of present capability. Engineering evidence must lead every technical, commercial, or performance claim.
+> **MISSION:** EGS is the parent-company initiative focused on advanced computing and semiconductors, with a long-term ambition to compete in the broad industry occupied by NVIDIA and AMD. ORCUS is its computational-architecture discovery and research platform. This is an ambition, not a claim of present capability, commercial traction, or silicon advantage. Engineering evidence must lead every technical, commercial, or performance claim.
 
 > **FOUNDER MOTTOS:**
 > - "Big dreams push past what other people view as possible, often because 'unrealistic' just means a goal hasn't been done yet by the people around you. You have to dream unrealistic because life is not realistic"
 > - "Get what I want and when I want it"
 
-> **CURRENT AUTHORITATIVE HANDOFF:** Milestone #2 is closed on main at merge commit `7cb67e8655e2c7f5ddb40b9ebc80809fa2d94c3a`. Active work remains **Milestone #3 — ECP5 FPGA validation and timing closure**. Main's ECP5 implementation and exact-head Run #262 (ID `45955978365`, source/test head `93f23518a7f8ba2699f58a8c7fd0322b09a442ba`) completed successfully; the eight-configuration artifact was independently audited in section 252. Fused Dadda improves Fmax over Direct at 4/8/16/32 lanes, but only 4-lane Dadda meets the 100 MHz target. The 8/16/32-lane designs remain below target. This is architecture-level ECP5 P&R with unconstrained external IOs, not board-pin-constrained hardware validation. PR #21 remains open, draft, unmerged, and `mergeable=false`; it is still at head `c6936a61fb103636140c4afec9f1b2f64b884e38` with stale base SHA `4030edbcc34d4986d0a34337864f3938ba0d8cda`. Its diff adds a second ECP5 workflow/benchmark implementation overlapping work already on main, so do not blindly sync, duplicate, mark ready, or merge it. Next: inspect the exact current main versions of the overlapping files and compare them against PR #21, decide whether the PR can be safely reconciled or should be closed as superseded (do not close without explicit authorization), then establish a preserved baseline and pursue timing closure for 8/16/32 lanes with formal proof and exact-head P&R artifacts. Keep the current 100 MHz matrix immutable. Merge only with explicit authorization and verified gates.
+> **CURRENT AUTHORITATIVE HANDOFF (2026-11-28):** EGS-0015 / [Issue #37](https://github.com/bio-ctrl/EGS/issues/37) is active. Session-start read of `main` verified EGS-0014 / Issue #36 and PR #22. PR #22 remains open, Ready for review (`draft=false`), and unmerged at head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; GitHub reports `mergeable=false`. Comparing `main` to `research/orcus-ecp5-dadda-pipeline` reports diverged history (44 commits ahead / 77 behind); PR base SHA is stale at `9b035b805ae208c262ea5cee12de6afa17f8e088`. The PR branch STATUS is stale; authoritative main already contains sections 259–275 and EGS-0014. Its CI workflow contains the pipelined-Dadda validation steps and the current `paths-ignore: STATUS.md` rule. Four pipeline source/test files are only on the PR branch. **Exact active sequence:** (1) construct a non-destructive merge commit on the PR head with current main as second parent, preserving the four pipeline files, merged CI workflow, and authoritative main STATUS; update the PR head only by normal fast-forward and verify mergeability/Ready state; do not merge PR #22 into main; (2) create `research/orcus-inference-tile` from validated Run #267 commit `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; (3) begin M4.1 at 32 lanes with signed-INT4 golden model, interface contract, parameter/width/depth assertions, and regression tests before memory RTL. If safe merge-candidate construction or verification is unavailable, stop and record the blocker. PR #21 untouched; Run #262 and Run #267 preserved; Ceres untouched; NEM isolated. FPGA-only evidence; no silicon or board-level claims.
 
 ---
 
 > **PERMANENT MANDATORY HANDOFF RULE — EVERY ACTION, EVERY SESSION:** "Read `STATUS.md` on `main` first, never fabricate numbers, keep Ceres untouched, and update and commit `STATUS.md` on `main` after EVERY single action, experiment, diagnostic, failure, timeout, or milestone—permanently across every session—so a future AI session with zero chat history can recover the exact state immediately."
 
-**Last updated:** 2026-11-27T07:03:15.456Z
+**Last updated:** 2026-11-28T16:24:30Z
 **Repository:** `bio-ctrl/EGS`  
 **Status scope:** Parent-company mission, project boundaries, verified engineering evidence, and active research queue.
 
 ---
+
+> **CURRENT AUTHORITATIVE HANDOFF (2026-11-28):** EGS-0013 / Issue #35 has audited [ORCUS CI Run #267](https://github.com/bio-ctrl/EGS/actions/runs/46114719350), run ID `46114719350`, at exact branch head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`. Both requested artifact ZIPs were downloaded and their SHA-256 hashes independently matched GitHub. All 4/8/16/32-lane atomic FA/HA SAT lemmas, Baugh–Wooley base proofs, compressor-token stage graph/wiring accounting, final CPA, sequential valid/reset induction, 512-vector streaming/flush/reset-leakage simulations, and ECP5 synthesis/P&R passed. Execution-verified latencies are 6/8/10/11 cycles; post-route Fmax is 335.9086/313.2832/313.6763/324.1491 MHz against 100 MHz. All widths use fewer LUT4s than Run #262 and zero MULT18X18D; pipeline FFs increase due to stage registers. **Milestone #3 technical gates are COMPLETE; Milestone #4 is unlocked.** PR #22 is Ready for review, open and unmerged; GitHub currently reports `mergeable=false` / `mergeable_state=dirty` and branch history diverges from current main, so reconcile the base/conflict condition and rerun CI on the merge candidate before merge. PR #21 untouched; Run #262 immutable; Ceres untouched; NEM isolated. No silicon or board-level claims. Milestone #4 v1 is specified in EGS-0013: signed INT4 N-lane Dadda dot-product core, two synchronous true-dual-port A/B scratchpads of 16,384 bits each, K-row full-precision accumulation with 20-bit result, and explicit DP16KD/formal/streaming/P&R gates. Exact next action: start M4.1 on a dedicated branch from validated head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`, implement the golden reference model, interface contract, width/depth assertions, and tests before adding memory RTL.
 
 ## 1. Mission and operating philosophy
 
@@ -2481,15 +2483,973 @@ All area/delay/power values below are Nangate45 typical-library pre-layout estim
 - This only adds a source assertion; no tests have been run. Next inspect exact generated source logic and fix any remaining issues before syncing branch STATUS and opening the Draft PR.
 
 
+## 276. Pipeline branch STATUS synchronized with main — 2026-11-27T23:59:00Z
 
-## Pipeline experiment branch handoff — 2026-11-27
+- Synchronized `research/orcus-ecp5-dadda-pipeline/STATUS.md` to the latest authoritative `main` STATUS content and appended a pipeline-specific handoff in branch commit `9a7f426055692f1f2543718060bdeea21eb052e9`.
+- The branch handoff records the separate generator, sequential formal/streaming harness, isolated ECP5 P&R runner, unit tests, CI wiring, architecture, and schedule-derived latency metadata: 4 lanes L=6, 8 lanes L=8, 16 lanes L=10, 32 lanes L=11. These latencies are derived from the source Dadda stage schedule and are not yet execution-verified.
+- Branch STATUS explicitly records that no tests/formal/simulation/synthesis/P&R have run and preserves all boundaries. Next create the requested Draft PR to trigger exact-head CI; PR number/head SHA and run status will be appended after GitHub confirms them.
 
-- Active experiment branch: research/orcus-ecp5-dadda-pipeline.
-- New implementation files: orcus/dadda_pipeline.py, benchmarks/dadda_pipeline.py, benchmarks/fpga_ecp5_pipeline.py, tests/test_dadda_pipeline.py.
-- CI adds separate pipelined Dadda sequential SAT, 512-vector Icarus streaming/reset checks, ECP5 synthesis and nextpnr P&R, with a dedicated artifact. Existing baseline ECP5 job/matrix remains unchanged.
-- Generator architecture: one complete live-heap register boundary after every Dadda reduction level, including pass-through bits; final CPA captured in output register; synchronous active-high reset; in_valid/out_valid; one transaction per cycle.
-- Schedule-derived latency metadata: 4 lanes L=6, 8 lanes L=8, 16 lanes L=10, 32 lanes L=11. These are derived from the Dadda stage schedule and have not yet been confirmed by executing the generator or RTL.
-- Branch code head before this STATUS synchronization included commit 815944e9d53e32068a004785f56d5dcbc34bb601. This STATUS synchronization creates a new branch commit.
-- Validation status: no Python tests, sequential SAT, streaming simulation, Yosys synthesis, or nextpnr P&R has run yet. Do not claim timing closure or performance gains. Run #262 remains immutable baseline; external IOs remain unconstrained.
-- PR #21 untouched/unmerged; Ceres untouched; NEM remains separate.
-- Next: open a Draft PR to trigger exact-head CI, then audit logs/artifact and record actual per-lane latency, formal results, 512-vector streaming results, LUT4/FF/MULT18X18D, critical paths and Fmax. Preserve all failures and timeouts.
+
+## 277. Draft PR #22 opened for exact-head pipeline CI — 2026-11-28T05:36:48Z
+
+- Opened Draft PR #22: https://github.com/bio-ctrl/EGS/pull/22
+- Head branch: `research/orcus-ecp5-dadda-pipeline`; exact PR head SHA at creation: `9a7f426055692f1f2543718060bdeea21eb052e9`; base `main` SHA: `9b035b805ae208c262ea5cee12de6afa17f8e088`.
+- GitHub confirmed PR #22 is open, draft, unmerged, and `mergeable=false` at creation. The PR event should trigger the workflow configured for `opened`; verify the exact-head Actions run rather than assuming it started or passed.
+- PR body records the separate pipelined Dadda architecture, schedule-derived latencies (4/8/16/32 lanes: L=6/8/10/11, not yet execution-verified), sequential SAT/512-vector Icarus tests, and separate ECP5 P&R target. It explicitly claims no pipeline verification or timing result yet.
+- No merge, force-push, PR #21 action, baseline modification, Ceres action, or NEM mixing occurred. Next: query Actions for exact head `9a7f426055692f1f2543718060bdeea21eb052e9`, inspect run/jobs/logs/artifacts, and fix any failures with a STATUS update after each action.
+
+
+## 278. PR #22 initial exact-head Actions query — 2026-11-28T05:37:30Z
+
+- Queried pull-request-triggered workflow runs for exact PR head `9a7f426055692f1f2543718060bdeea21eb052e9` immediately after opening Draft PR #22. The GitHub integration returned an empty run list.
+- This does not establish that the workflow failed or that Actions are disabled; it only means no PR-triggered run was visible in this query. Next inspect repository Actions runs API for the same exact head, then re-query PR metadata. Do not claim CI is running until a run ID/head SHA is confirmed.
+
+
+## 279. Repository Actions API confirms no PR #22 run — 2026-11-28T05:38:00Z
+
+- Queried `https://api.github.com/repos/bio-ctrl/EGS/actions/runs?per_page=20` and filtered the returned workflow runs for exact PR head `9a7f426055692f1f2543718060bdeea21eb052e9`. No matching run was present; the latest listed runs were older main/PR #21 runs.
+- CI is therefore **not yet confirmed queued**. The workflow file on the PR branch has the expected `pull_request` event types including `opened` and `synchronize`, but no run was delivered/visible for the PR-open event. Next emit a fresh `synchronize` event with a minimal workflow comment-only update, then check exact-head run status. This is a trigger attempt, not evidence of CI success.
+
+
+## 280. PR #22 synchronize trigger emitted — 2026-11-28T05:38:30Z
+
+- Added a comment-only synchronization marker to `.github/workflows/ci.yml` on `research/orcus-ecp5-dadda-pipeline`, commit `b4f1a9ef60d19258e3941e00389649f52ad3e392`, to emit a fresh PR `synchronize` event after the initial `opened` event produced no visible Actions run.
+- This is a trigger attempt only. The pipeline workflow behavior is otherwise unchanged; baseline ECP5 command remains unchanged. Next query PR #22 metadata and exact-head workflow runs for `b4f1a9ef60d19258e3941e00389649f52ad3e392`. Do not report CI queued until a run is confirmed.
+
+
+## 281. PR #22 synchronize event still has no visible Actions run — 2026-11-28T05:39:00Z
+
+- Re-read PR #22 metadata: still open, draft, unmerged, `mergeable=false`; exact head advanced to `b4f1a9ef60d19258e3941e00389649f52ad3e392` after the comment-only workflow marker.
+- Queried pull-request workflow runs for that exact head; the integration again returned an empty list. CI is not confirmed queued. The PR's `synchronize` event did not produce a visible run in the query. Do not report tests or P&R as running/passing.
+- Next inspect the GitHub Actions runs API for the exact updated head and check the branch's combined commit status. If no run exists, the user may need to inspect/enable Actions or manually run the workflow in GitHub UI; the current integration has no workflow-dispatch action.
+
+
+## 282. Combined-status diagnostic argument error — 2026-11-28T05:40:00Z
+
+- Attempted a parallel Actions API and combined commit-status check for PR #22 head `b4f1a9ef60d19258e3941e00389649f52ad3e392`. The combined-status call rejected the supplied argument names; its required schema is `repo_full_name` + `commit_sha`, not `repository_full_name` + `ref`. No repository source was changed and no CI conclusion was obtained from this failed diagnostic.
+- Next retry with the exact required schema and separately inspect the Actions runs API result. Preserve this failed diagnostic in the handoff.
+
+
+## 283. PR #22 head has no Actions run or commit status — 2026-11-28T05:41:00Z
+
+- Retried the Actions runs API query and combined commit-status check using the correct connector schema for exact head `b4f1a9ef60d19258e3941e00389649f52ad3e392`.
+- Actions API returned no workflow run matching that SHA; GitHub combined commit status returned an empty `statuses` array. CI has not been queued/observed for the current PR head. This is not a test failure; it is an absent run/status.
+- The available GitHub integration exposes no workflow-dispatch action. The Draft PR remains open to trigger the configured workflow, but GitHub has not delivered a visible PR run. Next: inspect workflow file and repository Actions configuration/events; if no integration action can start it, leave the PR draft and clearly report that the user must manually run ORCUS CI from the Actions UI. Do not claim the four requested engineering tasks are complete.
+
+
+## 284. Branch-filtered Actions query also empty — 2026-11-28T05:42:00Z
+
+- Queried the GitHub Actions runs API filtered to branch `research/orcus-ecp5-dadda-pipeline` with `per_page=100`. GitHub returned `total_count=0` and no runs.
+- Combined with the exact-head query and empty commit statuses, this confirms no workflow run is visible for PR #22 or its branch. The PR remains draft. No test or P&R evidence exists. Next continue static review and report the manual Actions UI requirement unless an authorized trigger operation becomes available; do not change PR out of draft without authorization.
+
+
+## 285. Actions settings endpoint unavailable through connector — 2026-11-28T05:43:00Z
+
+- Attempted a read-only GET of the repository Actions permissions endpoint to diagnose why PR #22 has no workflow run. The GitHub fetch integration rejected this endpoint as not allow-listed (HTTP 400); no repository or PR state changed.
+- No workflow-dispatch or Actions-settings read/write operation is exposed by the available integration. The current evidence remains: PR #22 open/draft, exact branch has zero Actions runs, and the exact head has no commit statuses. A human with repository Actions access may need to inspect the Actions tab/settings and manually run the workflow.
+
+
+## 286. Re-check of PR #22 after user-reported CI execution — 2026-11-27T23:45:02.506Z
+
+- Re-read the latest authoritative `main` STATUS.md before repository work. Then re-queried PR #22 metadata, the branch-filtered Actions runs API (100-run page), the pull-request-triggered workflow-run wrapper for exact head `b4f1a9ef60d19258e3941e00389649f52ad3e392`, and the exact-head combined commit status.
+- GitHub still reports PR #22 open, Draft, unmerged, and `mergeable=false`, at the stated head SHA. The branch-filtered Actions API returned `total_count=0`; exact-head workflow runs returned an empty list; combined commit statuses were empty.
+- This conflicts with the user's report that ORCUS CI has now executed. No run ID, workflow URL, artifact, or job log is currently discoverable through these endpoints. Therefore no sequential SAT, 512-vector streaming/reset-leakage, latency, synthesis, utilization, critical-path, or Fmax result can yet be audited. This is an observability discrepancy, not evidence that tests failed.
+- No source, branch, PR, baseline, Ceres, or NEM state was modified. Next: search the repository-wide Actions runs collection without a branch filter and inspect workflow metadata for any run that may have executed on another SHA or ref. Do not modify or merge PR #22; preserve Draft state.
+
+
+## 287. Repository-wide Actions search finds no PR #22 pipeline run — 2026-11-27T23:45:21.311Z
+
+- Queried the repository-wide Actions runs collection (100 most recent entries; API reports 392 total) and filtered the returned runs for the exact PR #22 head SHA, the pipeline branch name, and ORCUS workflow names. No run matched `b4f1a9ef60d19258e3941e00389649f52ad3e392` or branch `research/orcus-ecp5-dadda-pipeline`.
+- The newest returned ORCUS runs are older main-branch runs #261/#262 and PR #21 runs on `research/orcus-ecp5-fpga-validation`; they are not PR #22 validation and must not be substituted. Re-fetched the pipeline branch workflow file: it does include the dedicated pipeline unit-test and pipeline ECP5 formal/streaming/P&R steps, followed by the separate baseline ECP5 job. Workflow file blob SHA: `e5a7e4a950c5fdd4491e7c2bdabbc4851f8d8118`.
+- Despite the user's report that the workflow has now executed, the accessible GitHub Actions API currently exposes no run for PR #22's exact SHA or branch. This remains an observability mismatch; no failure root cause or pipeline measurements can be inferred. Run #262 remains a distinct main-branch combinational baseline only.
+- No repository source or PR state was changed. Next obtain the actual run ID or workflow-run URL from the user / GitHub Actions UI, or re-query the run collection when the run becomes visible. Once identified, fetch the run, jobs, steps, logs, and artifacts; do not attribute any other run to PR #22. Preserve Draft state and all project boundaries.
+
+
+## 288. Exact-head Actions API filter independently confirms no run — 2026-11-27T23:45:34.068Z
+
+- Performed a direct GitHub Actions runs query filtered by `head_sha=b4f1a9ef60d19258e3941e00389649f52ad3e392` with 100 results per page. GitHub returned `total_count=0` and an empty workflow_runs list.
+- This independently confirms the prior branch-filtered and repository-wide findings: no workflow run is currently discoverable for the stated PR #22 head. No run ID, logs, jobs, or artifacts can be audited from the available repository data. This is not evidence of a pipeline test failure; it is evidence that the requested run is not discoverable by its exact SHA.
+- No source, branch, PR, baseline, Ceres, or NEM state changed. Next required input to continue is the actual Actions run URL or numeric run ID, or an exact SHA different from the one specified. Preserve PR #22 as Draft and do not substitute Run #262 or PR #21 runs.
+
+
+## 289. Confirmed Run #262 is baseline-only, not pipeline validation — 2026-11-27T23:45:49.457Z
+
+- Inspected jobs, step summaries, and artifact metadata for Run #262 (ID `45955978365`, head `93f23518a7f8ba2699f58a8c7fd0322b09a442ba`). Its successful ECP5 job runs the existing combinational `benchmarks/fpga_ecp5.py` step and uploads `orcus-fpga-ecp5-pnr` (artifact ID `15179161047`, 1,297,789 bytes). The job has no pipeline unit-test, sequential SAT, streaming, or pipelined P&R steps.
+- Run #262 therefore remains the immutable combinational reference only; it cannot satisfy PR #22 validation. The baseline artifact is available for a separate metrics audit if needed. This run's ECP5 job and the separate general test job both completed successfully.
+- No pipeline result can be extracted from this artifact. No repository source or PR state changed. Next: obtain the actual PR #22 run ID/URL, then inspect its own jobs and dedicated `orcus-fpga-ecp5-pipelined-dadda` artifact. Do not substitute the baseline artifact or change the Draft PR state.
+
+
+## 290. Run #262 baseline logs and artifact downloaded for comparison — 2026-11-27T23:46:06.797Z
+
+- Fetched the completed ECP5 job log for Run #262 job `140362432705` and downloaded its baseline artifact `orcus-fpga-ecp5-pnr` (artifact ID `15179161047`) as `run262-ecp5-baseline.zip` in the working environment.
+- The job log contains raw nextpnr JSON timing-path details, resource counts, and utilization data. A representative tail fragment shows LUT4=2400, TRELLIS_FF=269, MULT18X18D=0 for one configuration, but the log includes multiple lane configurations and this fragment is not assigned to a lane here. No lane-level table is published from this partial extraction.
+- The detailed path JSON includes per-element `type` fields (logic/routing) and delays, but a complete lane-by-lane decomposition still requires structured parsing of each report/artifact. No pipeline comparison is possible without PR #22's own run.
+- This diagnostic only read/downloaded the immutable Run #262 evidence; no repository source, baseline, PR, Ceres, or NEM state changed. Next parse the baseline artifact/log by lane and preserve raw source data. Do not treat this baseline as pipeline evidence.
+
+
+## 291. Run #262 baseline artifact inventory verified — 2026-11-27T23:46:17.937Z
+
+- Inspected the downloaded immutable Run #262 artifact ZIP inventory. It contains `results.json` plus, for each of 4/8/16/32 lanes and both Direct and Fused Dadda, generated RTL, Yosys synthesis JSON/log, nextpnr report JSON/log, and routed configuration. All eight configuration directories are present.
+- This confirms the baseline artifact has the raw files needed for a structured per-lane comparison. The artifact inventory alone does not establish any new pipeline result. Next parse `results.json` and each nextpnr report to extract Fmax, logic/routing critical-path delay, LUT4, TRELLIS_FF, and MULT18X18D per configuration. Preserve exact labels and do not infer missing metrics.
+- No repository source, baseline, PR, Ceres, or NEM state changed.
+
+
+## 292. Run #262 lane-by-lane ECP5 baseline metrics parsed from raw artifact — 2026-11-27T23:46:43.199Z
+
+- Parsed `results.json` and each of the eight raw `nextpnr-report.json` files in artifact `orcus-fpga-ecp5-pnr` (Run #262, exact head `93f23518a7f8ba2699f58a8c7fd0322b09a442ba`). Target: LFE5U-85F-6BG381C / CABGA381 / speed grade 6 / 100 MHz. Yosys 0.33; nextpnr-ecp5 0.6-3build5.
+- The first synchronous critical path in each report was decomposed by summing the report's explicit `logic` and `routing` segment delays. The additional clock-to-Q term was 0.525 ns in all eight rows. These are report-derived path sums, not an independent timing model.
+
+| Lanes | Variant | Fmax MHz | 100 MHz | LUT4 | FF | MULT18X18D | Critical logic ns | Critical routing ns |
+|---:|---|---:|---|---:|---:|---:|---:|---:|
+| 4 | Direct | 91.92 | FAIL | 116 | 42 | 4 | 5.875 | 4.479 |
+| 4 | Fused Dadda | 106.26 | PASS | 260 | 42 | 0 | 3.496 | 5.390 |
+| 8 | Direct | 62.74 | FAIL | 167 | 75 | 8 | 7.132 | 8.283 |
+| 8 | Fused Dadda | 84.02 | FAIL | 579 | 75 | 0 | 4.489 | 6.888 |
+| 16 | Direct | 51.29 | FAIL | 513 | 140 | 16 | 8.683 | 10.288 |
+| 16 | Fused Dadda | 73.10 | FAIL | 1,252 | 140 | 0 | 4.987 | 8.168 |
+| 32 | Direct | 43.50 | FAIL | 936 | 269 | 32 | 9.391 | 13.074 |
+| 32 | Fused Dadda | 55.82 | FAIL | 2,400 | 269 | 0 | 5.931 | 11.458 |
+
+- Fused Dadda reduces critical logic delay relative to Direct in every lane count, but critical routing delay is higher in these reports. It removes use of MULT18X18D blocks in the fused rows, while LUT4 usage rises. Only 4-lane Fused Dadda meets the 100 MHz target. All results are FPGA P&R results with unconstrained external IOs, not board-level validation or silicon claims.
+- These metrics are the fixed Run #262 comparison baseline. They are not results from the new pipelined design. Next use the same extraction method on PR #22's exact-head artifact once its run ID is identified.
+
+
+## 293. User reports manual ORCUS CI completion, but supplied run ID is a placeholder — 2026-11-27T23:49:53.289Z
+
+- Re-read authoritative `main` STATUS.md before repository work. User reported manually triggering and completing ORCUS CI on branch `research/orcus-ecp5-dadda-pipeline`, exact head `b4f1a9ef60d19258e3941e00389649f52ad3e392`, but the supplied run ID field literally contains `[PASTE_RUN_ID_HERE]` rather than a numeric ID or URL.
+- Independently queried GitHub Actions by exact `head_sha` and by branch, and re-fetched PR #22 metadata. Both Actions queries returned empty run lists (`total_count=0` for branch); PR #22 remains open, Draft, unmerged, at the specified exact head SHA.
+- Because no valid run ID was supplied and Actions API still exposes no matching run, there is no trustworthy run record to fetch. Sequential SAT, 512-vector streaming/reset leakage, execution-verified latency, synthesis/P&R, utilization, path breakdown, and pipeline Fmax remain unaudited. Do not substitute Run #262 or PR #21.
+- No source, PR, baseline, Ceres, or NEM state was modified. Next required input: actual numeric GitHub Actions run ID or the completed run's URL (and if it ran on another SHA, that exact head SHA). Keep PR #22 Draft and all project boundaries intact.
+
+
+## 294. Exact-head ORCUS CI run discovered after refreshed Actions API query — 2026-11-27T21:30:00-06:00
+
+- Re-read authoritative main STATUS.md and queried the Actions runs API directly for exact head SHA `b4f1a9ef60d19258e3941e00389649f52ad3e392`. The earlier query had returned no matching run, but this refreshed query now returns Run #263, ID `46085084604`, workflow_dispatch, completed with conclusion **failure**.
+- Exact match confirmed: branch `research/orcus-ecp5-dadda-pipeline`, PR #22, head SHA `b4f1a9ef60d19258e3941e00389649f52ad3e392`. Run URL: https://github.com/bio-ctrl/EGS/actions/runs/46085084604 .
+- This corrects the earlier observability state: a matching run is now discoverable. Its jobs, steps, logs, and artifacts have not yet been audited. No technical pass/fail findings or P&R metrics are asserted in this entry.
+- No source, PR, baseline, Ceres, or NEM state changed. PR #22 remains Draft and Run #262 remains the immutable combinational baseline. Next fetch Run #263 jobs, logs, artifacts and inspect exact failure cause and any partial pipeline results.
+
+
+## 295. Run #263 job and artifact inventory audited — 2026-11-27T21:31:00-06:00
+
+- Fetched Run #263 jobs and artifacts for exact head `b4f1a9ef60d19258e3941e00389649f52ad3e392`.
+- General `test` job `140792666821`: completed SUCCESS. Unit tests, Python compilation, benchmark jobs and target checks passed.
+- `ORCUS FPGA ECP5 place-and-route` job `140792667093`: completed FAILURE. The pipeline generator/sequential-harness source test step passed; the combined 4/8/16/32-lane pipeline formal/streaming/synthesis/P&R step failed. The baseline ECP5 step was skipped because the pipeline step failed.
+- Dedicated pipeline artifact exists: `orcus-fpga-ecp5-pipelined-dadda`, artifact ID `15238624029`, 27,468 bytes, SHA-256 `114013c6a9d90ec11c9b2e3008542325d2a9f3618bb6984c9932d7c71688aa1d`. It is associated with the exact run/head. Other general benchmark artifacts are not pipeline P&R evidence.
+- No root cause or per-lane formal/simulation/P&R result is yet asserted; next fetch the failed job log and download/inspect the dedicated artifact.
+- No source or PR state changed. Run #262 remains the immutable baseline; PR #22 remains Draft; Ceres and NEM untouched.
+
+
+## 296. Run #263 failure root cause identified from exact job log — 2026-11-27T21:32:00-06:00
+
+- Retrieved full log for failed ECP5 job `140792667093`. Toolchain installation succeeded (Yosys 0.33; nextpnr-ecp5 0.6-3build5). Both ECP5 wrapper/parser tests and all five pipelined Dadda source/harness unit tests passed; the general CI job also passed.
+- The combined pipeline runner failed at its **first configuration, 4 lanes**, during sequential Yosys SAT. Exact command: `yosys -p 'read_verilog .../miter.v; prep -top orcus_pipeline_miter_4; flatten; sat -seq 16 -verify -prove bad 0 -set-init-zero'`. Python `subprocess.run` raised `TimeoutExpired` after the configured 180-second formal timeout; runner raised `TimeoutError: sequential SAT timeout for 4 lanes after 180s`; process exited 1.
+- This is a solver timeout, not a counterexample and not proof of inequivalence. Because `run_one()` invokes `run_formal()` before `run_streaming()`, Yosys ECP5 synthesis, or nextpnr, none of those later steps ran for 4 lanes or any higher lane count. No 512-vector simulation, reset-leakage result, execution-verified latency, or pipeline P&R metrics exist in this run.
+- Artifact upload succeeded, but the pipeline artifact is only 27,468 bytes and the baseline ECP5 job was skipped. Next inspect the downloaded ZIP inventory and contents to establish precisely which partial logs/source files were retained; do not infer absent test results.
+- No source, PR, baseline, Ceres, or NEM state changed. PR #22 remains Draft; Run #262 remains immutable and separate.
+
+
+## 297. Run #263 partial artifact inventory and manifest audited — 2026-11-27T21:33:00-06:00
+
+- Downloaded and inspected dedicated artifact `orcus-fpga-ecp5-pipelined-dadda` (artifact ID `15238624029`, SHA-256 `114013c6a9d90ec11c9b2e3008542325d2a9f3618bb6984c9932d7c71688aa1d`). ZIP contains exactly five files: 4-lane generated RTL, 4-lane pipeline manifest, 4-lane sequential miter, Yosys formal timeout log, and `results.json`.
+- `results.json` has `status=failed`, empty `matrix=[]`, and error `TimeoutError: sequential SAT timeout for 4 lanes after 180s`. The solver log reports 1,097 cells imported per time step, 16 time steps, and a final SAT problem with 150,597 variables and 408,234 clauses before the 180-second timeout.
+- The 4-lane manifest records width 10, six Dadda stage boundaries, stage targets [13, 9, 6, 4, 3, 2], and schedule metadata `latency_cycles=6`. This is **manifest/schedule-derived only**, not execution-verified latency because the sequential miter did not complete.
+- No 8/16/32-lane RTL/manifests/logs are in the artifact. No streaming testbench or Icarus execution log is present. This matches control flow: formal timed out before streaming and before ECP5 synthesis/P&R. Therefore no pipeline Fmax, logic/routing path delay, LUT4, FF, or MULT18X18D results exist for any lane count in Run #263.
+- The solver log establishes a resource-heavy bounded SAT instance at 4 lanes; it does not establish functional inequivalence. Next record the blocked execution as EGS-0002 and update the durable ledger/STATUS. Then the next engineering task is to redesign the sequential proof strategy (e.g. compositional stage/transaction lemmas or a smaller inductive equivalence proof) before rerunning streaming and P&R. Do not merely raise the timeout without analyzing proof complexity.
+- No source, PR, baseline, Ceres, or NEM state changed. PR #22 remains Draft; Run #262 remains the immutable combinational comparison baseline.
+
+
+## 298. EGS-0002 execution ledger issue created — 2026-11-27T21:34:00-06:00
+
+- Created durable execution record **EGS-0002 — ORCUS pipelined Dadda CI audit**, GitHub Issue #24: https://github.com/bio-ctrl/EGS/issues/24 .
+- EGS-0002 records objective, starting main commit `146d6b189c2d601f5fc1b5c4c76923a6f4bb44e3`, branch and exact experiment SHA, Run #263 ID/URL, job outcomes, formal timeout command and solver scale, artifact ID/digest/inventory, unrun streaming/P&R checks, absent execution-verified latency/metrics, boundaries, and next action.
+- EGS-0002 status is **Blocked**. No pipeline correctness or timing-closure claim is made. PR #22 remains Draft; PR #21 and Run #262 remain untouched; Ceres and NEM remain isolated.
+- Next action: develop a tractable compositional/inductive sequential-equivalence proof, then rerun the pipeline in exact-head CI. Do not advance to P&R conclusions until proof and streaming/reset checks execute successfully.
+
+
+## EGS-0003 — Compositional formal verification redesign started
+
+- Date: 2026-11-27
+- Objective: replace Run #263's monolithic sequential multiplier SAT proof with per-stage weighted-heap combinational equivalence and a small sequential valid/reset control proof, retaining streaming simulation and ECP5 P&R gates.
+- Project/repository: ORCUS / bio-ctrl/EGS.
+- Branch and starting commit: `research/orcus-ecp5-dadda-pipeline` at `b4f1a9ef60d19258e3941e00389649f52ad3e392`.
+- Main starting state: STATUS blob `f81cae5a5557e8ac0b79a3fa700a2255ad3684df`; latest main commit recorded by prior ledger entry `79de79032ded5f7a755446ae7686de8e6434d84d`.
+- Sequential ID reconciliation: EGS-0001 is Issue #23; EGS-0002 is Issue #24; repository issue search found no EGS-0003. EGS-0003 is allocated for this execution.
+- Inspected branch files: `benchmarks/dadda_pipeline.py`, `benchmarks/fpga_ecp5_pipeline.py`, `orcus/dadda_pipeline.py`, `tests/test_dadda_pipeline.py`, and `.github/workflows/ci.yml`. The existing runner already calls `run_formal` before the 512-vector streaming test and ECP5 synthesis/P&R for each lane count. Therefore the proof harness can be replaced without changing the ECP5 runner or workflow ordering.
+- Planned proof composition: independently instantiate each Dadda stage from manifest compressor records, expose arbitrary input heap bits, compute weighted input/output sums modulo accumulator width, and prove equality with combinational SAT; for the final stage additionally prove the CPA sum equals the final two-row heap. Separately instantiate the real pipeline RTL in a valid-only miter, prune unobservable datapath logic, and check reset/valid shift alignment with bounded sequential SAT on the small control cone. Existing Icarus 512-vector back-to-back/reset test remains mandatory.
+- No branch edits or technical validation have yet occurred. Status: in progress. Next: implement the compositional harness and update source-level tests on the experiment branch, preserving PR #22 as Draft. Main, Run #262, PR #21, Ceres and NEM remain untouched.
+
+
+## EGS-0003 action 1 — compositional stage/control miter builders committed
+
+- Updated `benchmarks/dadda_pipeline.py` on `research/orcus-ecp5-dadda-pipeline`; branch commit: `c20c0a233f3bca058be5a3c1e6d414c236b34b6b`.
+- Added standalone per-stage combinational miter generation from the Dadda manifest. Each miter exposes arbitrary input-heap bits, reconstructs the stage's full/half-adder equations, and compares weighted input/output sums modulo accumulator width. The final stage also compares the final CPA against the weighted two-row heap.
+- Added a sequential control-only miter that instantiates the actual pipeline RTL and compares its output-valid signal to an independent L-stage reference shift register. Data outputs are unobserved so the subsequent synthesis/optimization can prune the multiplier datapath from this proof cone.
+- Retained `build_sequential_miter` as a compatibility alias to the new control-only miter.
+- This is an implementation commit only; no formal command or test has run yet. Next update `run_formal` to execute all per-stage combinational proofs plus the small control proof, and persist each log/miter. Main STATUS update commit: `bc5d1579d66bd7693c511d331e8cbaa436072a47`.
+
+
+## EGS-0003 action 2 — compositional formal runner committed
+
+- Updated `benchmarks/dadda_pipeline.py` on the experiment branch; commit: `fb46208220c39acbfefc8da06722b2a1d9ecb023`.
+- Replaced the monolithic sequential full-multiplier SAT run with one combinational SAT miter per Dadda stage. Each stage compares modulo-width weighted input and output heaps; the final stage also checks the CPA against its final two-row heap.
+- Added a separate sequential valid/reset temporal-induction proof. It instantiates the real DUT but only observes `out_valid`; `opt_clean -purge` is applied after flattening so unobservable multiplier datapath logic should be removed from the SAT cone. The induction depth is `2*L+2`.
+- Every stage and control proof writes its generated Verilog and raw Yosys log to the persistent per-configuration validation artifact directory. The ECP5 runner imports this `run_formal` function, so its existing order remains formal → 512-vector streaming/reset simulation → ECP5 synthesis/P&R for each lane count.
+- No Yosys formal execution or test has yet been run on this code. This commit is not evidence of proof success. Next update source-level tests to cover stage miter structure, weighted-sum comparisons, final CPA check and control-only miter; then trigger CI for actual execution evidence.
+
+
+## EGS-0003 action 3 — compositional harness source tests committed
+
+- Updated `tests/test_dadda_pipeline.py` on the experiment branch; commit: `80ebf37c2dfbfb66b24d9bf7958dc7a43a073d27`.
+- Replaced the old full datapath sequential-miter source assertions with coverage for every stage's independent weighted-heap SAT miter, compressor equations, final-stage CPA comparison, and valid/reset-only control miter. Kept the 512-vector streaming-testbench structural checks.
+- These are source-level unit tests only; they have not yet executed. The implementation must still be exercised by the next ORCUS CI run, including verifying that Yosys accepts the `-tempinduct` control proof syntax and that dead datapath logic is actually pruned.
+- Next: inspect exact branch diff and branch head, reconcile PR #22 remains Draft, then create EGS-0003 issue and update main STATUS with the exact new head. Do not call the branch ready for CI until static review is complete; actual proof readiness remains subject to CI.
+
+
+## EGS-0003 review correction — final-stage CPA miter row source fixed
+
+- Static review of the generated final-stage miter found that the CPA row expression initially referenced the generator's post-register `final_rows` names, while the standalone stage miter exposes the pre-register `output_heap` tokens. Those identifiers would have been undefined in the miter.
+- Corrected `benchmarks/dadda_pipeline.py` on the experiment branch in commit `fef6717cc37c043351fa4d2d30bd9ad1df5bad10`: final CPA row0/row1 are now constructed directly from the final stage's `output_heap`, preserving the same weighted bits and avoiding undefined register aliases.
+- This is a static source correction, not a Yosys proof result. Next inspect the final diff and verify generated names/command structure; then create EGS-0003 issue and update main STATUS with the final branch head and readiness limitations.
+
+
+## EGS-0003 review finding — initial arithmetic heap proof required
+
+- During static review of `orcus/lane_scaling.py`, confirmed the Baugh–Wooley generator forms each lane's raw complemented partial-product matrix and adds the modulo-`2^W` correction constant `2^W - 112` per lane.
+- Found a proof-composition gap: stage 0's independent miter treats its input heap bits as arbitrary Boolean inputs. Stage invariants alone would prove compressor preservation but would not prove that the actual partial products plus per-lane correction constants equal the signed INT4 dot product.
+- Add an explicit initial-heap arithmetic miter proving the generated signed partial-product/correction heap equals the direct signed lane-product sum modulo accumulator width, before all per-stage compressor proofs. This is required for the composition to establish the intended arithmetic result.
+- This finding is from read-only source inspection; no code change or proof result is claimed yet. Next implement and test the base-case miter and include it in `run_formal`.
+
+
+## EGS-0003 action 4 — initial Baugh–Wooley arithmetic base-case miter added
+
+- Updated `benchmarks/dadda_pipeline.py` on the experiment branch; commit: `24f8a7ee550a7eecfbad1b65fe81eb1af08592ec`.
+- Added `build_initial_heap_miter`: actual generated complemented 4×4 partial-product bits and each lane's correction-constant bits are weighted and compared modulo accumulator width against the direct sum of signed 4-bit lane products.
+- `run_formal` now executes this initial arithmetic identity proof before the per-stage compressor proofs and final CPA proof. This closes the previously identified base-case gap in the compositional proof chain.
+- The initial miter and all stage/control proof commands remain unexecuted; no formal PASS is claimed. Next add source-level coverage for the initial arithmetic miter, then inspect generated-source consistency and the final branch diff.
+
+
+## EGS-0003 action 5 — initial arithmetic miter source test committed
+
+- Updated `tests/test_dadda_pipeline.py` on the experiment branch; commit: `b3686c33b47d95b019f1f54e0dcb612ece65bfcd`.
+- Added source-level coverage that the initial-heap miter includes signed 4×4 lane multiplication, weighted initial heap, direct signed sum, and Baugh–Wooley correction bits for each supported lane count.
+- These tests have not yet been executed. Next complete static consistency review and check that the final branch includes the new base-case proof, every stage proof, valid/reset induction, and the unchanged streaming/P&R runner path.
+
+
+## EGS-0003 proof-scaling refinement — initial heap identity split per lane
+
+- Refined `build_initial_heap_miter` to prove one lane's Baugh–Wooley partial-product/correction heap against that lane's signed 4×4 product, rather than placing all 4/8/16/32 multipliers in one base-case SAT cone.
+- `run_formal` now runs an independent base-case SAT proof for every lane, then every Dadda stage proof, then the control-only sequential induction. This keeps the arithmetic base-case proofs small and preserves per-lane counterexamples.
+- Experiment branch commit: `1ac548ed04577f125f15379c6675c84212a78b66`.
+- No execution tests have run; this is an implementation refinement. Next update tests for per-lane base-case miters and perform the final static review.
+
+
+## EGS-0003 action 6 — per-lane initial proof tests committed
+
+- Updated `tests/test_dadda_pipeline.py` on the experiment branch; commit: `455df39f53fdd89f993228c533adfadbef74c9c1`.
+- Source-level tests now cover each lane's initial Baugh–Wooley miter for every supported lane count (4/8/16/32), in addition to every stage's weighted-heap miter and the sequential control miter.
+- These are test definitions, not executed test results. Next perform a final read-only audit of the latest branch files, exact head, PR state, workflow order, and any Actions run triggered by the branch update.
+
+
+## EGS-0003 static-review refinement — explicit signed operand extension
+
+- Updated the per-lane initial arithmetic miter to explicitly sign-extend each 4-bit operand to 8 bits before multiplication, then sign-extend the 8-bit product to accumulator width. Experiment branch commit: `30b51df975a6848f6a0b909c22cfd2223f8a4829`.
+- This avoids relying on implicit Verilog expression sizing for the reference 4×4 signed product. No Yosys or simulator execution has occurred; this is a static robustness change.
+
+
+## EGS-0003 action 7 — signed-extension source test aligned
+
+- Updated `tests/test_dadda_pipeline.py` on the experiment branch; commit: `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4`.
+- Adjusted the base-case miter source test to assert explicit signed operand extension and the 8-bit signed product expression introduced in the prior static-review correction.
+- Test definitions remain unexecuted. Next final reconciliation: fetch current PR/branch head, verify the workflow order and no unexpected Actions run, then create EGS-0003 Issue and record the final state on main.
+
+
+## EGS-0003 — compositional pipelined Dadda proof redesign committed; ready for manual CI
+
+- GitHub execution ledger: **EGS-0003 / Issue #25** — https://github.com/bio-ctrl/EGS/issues/25 .
+- Prior execution: EGS-0002 / Issue #24; root cause Run #263 (46085084604) was monolithic 16-step sequential SAT timeout at 4 lanes.
+- Repository/project: bio-ctrl/EGS, ORCUS pipeline experiment.
+- Experiment branch: research/orcus-ecp5-dadda-pipeline.
+- Exact branch head: ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4.
+- Starting main commit for EGS-0003: 79de79032ded5f7a755446ae7686de8e6434d84d.
+- PR #22: open, Draft, unmerged; head reconciled to the exact branch SHA above.
+- Implemented proof composition:
+  1. Per-lane combinational SAT base case: Baugh–Wooley partial products and per-lane correction bits equal one signed 4×4 product, with explicit operand sign extension.
+  2. Per-stage combinational SAT: each Dadda compressor stage preserves modulo-2^W weighted heap value; final stage also checks the CPA against the final two-row heap.
+  3. Sequential valid/reset control proof: instantiate actual pipeline RTL, optimize away unobserved arithmetic datapath, and use Yosys temporal induction against an independent L-stage valid shift reference.
+  4. Existing ECP5 runner order remains formal → 512-vector Icarus streaming/flush/reset-leakage simulation → Yosys ECP5 synthesis and nextpnr P&R, across 4/8/16/32 lanes.
+- Changed experiment-branch files: benchmarks/dadda_pipeline.py and tests/test_dadda_pipeline.py. The existing benchmarks/fpga_ecp5_pipeline.py and .github/workflows/ci.yml were inspected and remain unchanged.
+- Static reconciliation confirms branch head/PR head match, the test file contains source-level coverage for per-lane base proofs, per-stage weighted-heap proofs, final CPA, control/reset, and 512-vector streaming, and the runner still gates streaming and P&R behind formal.
+- **Readiness:** implementation is committed and is a candidate for the next manual ORCUS CI run at the exact SHA above. No CI run is currently discoverable for this final head. No unit test, Yosys proof, Icarus simulation, synthesis, or P&R was executed in this session. Do not claim formal PASS, execution-verified latency, Fmax, timing-path, or resource results until the exact-head run and artifacts are audited.
+- Constraints preserved: main and Run #262 remain baseline; PR #22 remains Draft; PR #21 untouched; Ceres untouched; NEM isolated; zero silicon claims.
+- Next action: trigger manual ORCUS CI for ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4, then audit all base/stage/control proofs, 512-vector streaming/reset behavior, and all four ECP5 P&R outputs.
+
+
+## EGS-0004 preliminary audit diagnostic — issue search query rejected — 2026-11-27
+
+- Execution requested: audit ORCUS CI allegedly run on `research/orcus-ecp5-dadda-pipeline` at `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4`.
+- A GitHub issue-search request for EGS-0004 was rejected by the API because the query omitted the required `is:issue` or `is:pull-request` qualifier. This is a query-format failure, not evidence that an EGS-0004 record does or does not exist.
+- A separate Actions API lookup currently shows only Run #263 for the branch, whose recorded workflow `head_sha` is `b4f1a9ef60d19258e3941e00389649f52ad3e392`; this does not match the requested exact head. Do not attribute Run #263 results to `ee8c0a0...` without an exact-head run record.
+- No technical validation result or P&R metric is inferred from this diagnostic. Continue by correcting the issue-search query and reconciling branch/run metadata before creating EGS-0004.
+
+
+## EGS-0004 ledger reconciliation — no existing issue found — 2026-11-27
+
+- Corrected GitHub issue search (`repo:bio-ctrl/EGS EGS-0004 is:issue`) returned zero issues. EGS-0004 is therefore the next available execution ID after EGS-0003 / Issue #25.
+- The run itself remains unresolved: current Actions API branch listing shows Run #263 with workflow head SHA `b4f1a9ef60d19258e3941e00389649f52ad3e392`, not requested SHA `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4`. The user-provided Actions URL is a placeholder, not a run URL.
+- No EGS-0004 issue created yet; no technical results or P&R metrics claimed. Next: reconcile the branch ref and Actions run inventory, then retrieve exact-run jobs/logs/artifacts if available.
+
+
+## EGS-0004 branch-ref diagnostic — encoded branch URL rejected — 2026-11-27
+
+- Attempted a read-only GitHub API fetch of the branch ref for `research/orcus-ecp5-dadda-pipeline`; the GitHub connector rejected the URL as an invalid repository path (HTTP 400). No branch state was changed and no branch-head conclusion is drawn from this failed request.
+- Actions inventory and exact-head run reconciliation remain outstanding. Continue with a supported branch/commit endpoint or the user-supplied exact Actions URL.
+
+
+## EGS-0004 — ORCUS compositional pipeline CI audit opened; blocked on exact-run identity — 2026-11-27
+
+- GitHub execution ledger: **EGS-0004 / Issue #26** — https://github.com/bio-ctrl/EGS/issues/26 . No existing EGS-0004 issue was found; Issue #26 is the next available execution record after EGS-0003 / Issue #25.
+- Requested experiment head: `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4` on `research/orcus-ecp5-dadda-pipeline`; PR #22 remains open, Draft, and unmerged.
+- The user-supplied Actions URL was a placeholder. GitHub Actions API branch listing returned only Run #263 (ID `46085084604`), whose recorded workflow `head_sha` is `b4f1a9ef60d19258e3941e00389649f52ad3e392`, not the requested SHA. The run's PR association points at PR #22's newer head, but this does not alter the run's own SHA. Do not attribute Run #263's results to the requested head.
+- Therefore no exact-head compositional base/stage/CPA/control proof outcomes or solver durations, 512-vector streaming/flush/reset-leakage results, execution-verified latency, or pipeline ECP5 P&R metrics have been verified for the requested SHA. No pipeline-vs-Run-#262 metric comparison or timing-closure claim is valid yet.
+- EGS-0004 status: **Blocked** pending an Actions run whose own head SHA exactly matches `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4` and whose branch is `research/orcus-ecp5-dadda-pipeline`. Issue #26 records acceptance criteria and the exact next action.
+- Constraints preserved: Run #262/main baseline immutable; PR #22 stays Draft; PR #21 untouched; Ceres untouched; NEM isolated; zero silicon claims.
+- Next: obtain the exact Actions run URL/ID or trigger ORCUS CI on the exact requested head, then audit jobs, logs and dedicated artifacts. If any lane misses 100 MHz, target the measured critical path; do not advance to Milestone #4 until validation and review pass.
+
+
+## Lugh standing operating rule — STATUS.md updates for every EGS conversation — 2026-11-27
+
+- User instruction: update `STATUS.md` on `main` after every EGS/ORCUS/Lugh-related chat, even when the user does not explicitly request a status update.
+- At the start of every EGS-related chat that may lead to repository work, read the latest `STATUS.md` on `main` before taking repository action.
+- At the end of each EGS-related chat, record meaningful decisions, work completed, diagnostics, failures/timeouts, blockers, evidence status, and the exact next action; commit the update to `main` and report the commit SHA. Do not claim an update unless the commit succeeds.
+- Keep the ledger focused: unrelated personal, academic, or general conversations do not belong in the EGS engineering `STATUS.md`.
+- Preserve existing hard boundaries: no force-push or unauthorized merge; PR #22 remains Draft pending validation/review; PR #21, Run #262, Ceres, and NEM boundaries remain as previously specified.
+
+
+## Lugh ledger completeness check — historical project record confirmed — 2026-11-27
+
+- User asked whether `STATUS.md` had been updated with everything completed up to this point.
+- Read the latest `main` version and checked the current ledger contents. It already contains the detailed ORCUS history through EGS-0003, including the Run #262 immutable combinational baseline, Run #263 timeout and artifact audit, EGS-0002 / Issue #24, EGS-0003 proof-redesign implementation and exact branch head, plus EGS-0004 / Issue #26 exact-run reconciliation and blocked status.
+- The immediately preceding commit `b209cceaefbdac6f28b4e57266113b8779bf0502` added the standing rule; it did not rewrite or re-import the entire historical record because those project milestones were already present in `STATUS.md`.
+- This check confirms the current known EGS/ORCUS milestones and decisions are represented in the ledger. It does not claim that unrelated conversations or unrecorded work outside the repository history have been reconstructed. Continue appending meaningful EGS-related chat outcomes under the standing protocol.
+
+
+## Historical project chronology — repository inception through 2026-11-27
+
+This section is a consolidated origin-to-current map, reconstructed from the repository's recorded issue/PR history, commit history, current project documents, and retained conversation context. It complements (does not replace) the detailed chronological engineering handoffs and experiment logs below. The GitHub repository was created on 2026-09-12. Earlier Xylenic and ELSTELLA/PROJECT ORIGIN work appears in the same repository history; it is preserved as historical lineage and must not be misrepresented as the current EGS/ORCUS product.
+
+### A. Initial repository and Xylenic phase — 2026-09-12 to 2026-10-15
+
+- Repository inception: `bio-ctrl/EGS` was created on 2026-09-12. Its earliest recorded work concerned Xylenic, an enterprise AI automation / user-sovereignty concept.
+- Issue #1: rebuilt the Xylenic landing page into a premium waitlist experience, including Netlify Forms capture, form validation/fallback behavior, and the initial visual identity.
+- Issue #2: added email validation, interactive product-demo panels, FAQ accordion, animations, and a CTA. The live visual result was not verified in that recorded session.
+- Issue #3: restored the intended Xylenic visual theme and aligned the displayed early-access metric; retained a server-side latency telemetry endpoint that the page did not yet call.
+- These entries document early founder experimentation and product/brand work. They do not establish Xylenic as the current EGS company or establish customer traction.
+
+### B. ELSTELLA / PROJECT ORIGIN biotechnology exploration — 2026-11-24
+
+The same repository then recorded a biotechnology and computational-biology exploration phase:
+
+- Issue #4: ORIGIN ATLAS research-engine and workspace foundations — Europe PMC metadata retrieval, unverified abstract-candidate extraction, evidence-grounded AI synthesis scaffolding, optional Supabase same-account sync, tests and CI. Live integrations were not yet validated.
+- Issue #5: CARDIA validation and therapeutic-landscape package; literature mapping and metadata checks were explicitly not biological validation.
+- Issues #6–7: CARDIA/NEXUS research thesis and feasibility/novelty audit. The audit found substantial prior work and narrowed the hypothesis; no raw expression-matrix analysis or causal/therapeutic validation was claimed.
+- Issues #8–9: VYREON adopted as a provisional internal codename for the CARDIA-01 concept, followed by a falsifiable research-gate plan. It remained a concept, not a drug candidate.
+- Issues #10–11: ELSTELLA strategy shifted from a single-disease approach to a staged three-division biotechnology strategy: Cellular & Mitochondrial Health first; Muscle & Physical Health second; Brain & Cognitive Health third. PROJECT MITOS became the first literature-led assessment priority; GENESIS, CARDIA and VYREON were retained as distinct historical/foundational tracks.
+- All of this remained research planning/infrastructure. No validated therapeutic target, molecule, efficacy, safety, clinical benefit, patent, or funding was established. Experimental/translational work was not undertaken.
+- This biotechnology phase is retained as historical repository lineage. It is not the active EGS/ORCUS mission and must not be blended into the semiconductor roadmap without a new explicit decision.
+
+### C. ORCUS computational-architecture research begins — 2026-11-25
+
+- ORCUS became the active computational-architecture research direction. Its README expansion is **Optimized Representation & Computational Understanding System**.
+- Initial research objective: build a transparent, reproducible Boolean-circuit search baseline before introducing more ambitious architecture-discovery methods.
+- v0.1 implemented packed truth tables, a primitive Boolean gate library, deterministic expression-tree enumeration, circuit IR, structural common-subexpression sharing, multi-output DAG representation, exhaustive functional checks, Verilog emission, benchmark records, tests and CI.
+- The documented initial search scope was small three-input Boolean functions. Metrics such as gate count, logic depth, fanout and output-toggle proxy were explicitly structural; they were not physical area, delay or power.
+- Issue #12 established a multi-output structural-sharing baseline. Issue #13 expanded to bounded joint multi-output architecture search, adder generators, typed bit-vector/dataflow IR, associative topology search, bit-heap compressor networks and reproducible comparisons.
+- The experiments did not establish broad superiority: the five-case joint-search experiment improved structural DAG gate count in 2/5 cases, tied in 3/5, and tied generic-cell count in all five. The bounded associative-topology experiment tied the generic-cell baseline in all 15 candidates. The multi-operand compressor experiment did show selected small generic-cell reductions, but only within its stated workload and evidence class.
+- Issue #14 documented an evidence-based competitive-gap analysis versus NVIDIA and AMD; it was a gap analysis, not evidence of parity.
+- Issues #15–16 specified ORCUS Search v2: provenance, stable candidate identity for a declared graph subset, deterministic budgets, partial-result preservation, explicit verification classes, evidence-aware metrics and reproducible reporting. The spec intentionally excluded claims of unrestricted/global optimal search or physical advantage.
+
+### D. ORCUS engineering baseline and signed INT4 MAC research — 2026-11-26
+
+- PR #17 assembled a clean technical ORCUS baseline from the research work; PR #18 superseded it and merged the validated ORCUS baseline.
+- ORCUS v0.2 established a reproducible four-lane signed INT4 dot-product benchmark comparing direct arithmetic and reduction architectures, with formal equivalence, deterministic 512-vector simulation, VCD activity, Nangate45 mapping and OpenSTA analysis.
+- PR #19 / ORCUS v0.3 introduced a fused Baugh–Wooley partial-product architecture: signed 4×4 products were expanded into complemented partial products and combined in a shared bit heap before final carry-propagate addition.
+- The compositional proof work was iteratively corrected and audited. The verified v0.3 result recorded four compositional SAT lemmas and independent graph audit; fused implementation area estimate 413.896 (27.96% below Direct), total power estimate 74.24132 µW (29.31% below Direct), and delay 1.13 ns versus Direct. These are Nangate45 pre-layout estimates, not routed or silicon measurements.
+- Milestone #1 closed when PR #19 merged at `35207adff3371fcadae68cbaa58181267c361359`. The earlier monolithic ABC CEC timeout was treated as a proof-method timeout, not inequivalence; compositional proof later passed.
+
+### E. Scaling and FPGA validation — 2026-11-27
+
+- Milestone #2 / PR #20 scaled signed INT4 dot-product candidates to 8/16/32 lanes and compared Direct, Carry-Save, Fused Linear and Fused Dadda. Run #256 completed successfully on exact head and its artifact was audited. All 12 configurations passed the recorded formal/simulation/graph-audit gates; Nangate45 metrics remain pre-layout estimates.
+- Milestone #2 merged at `7cb67e8655e2c7f5ddb40b9ebc80809fa2d94c3a`.
+- Milestone #3 / PR #21 introduced ECP5 FPGA place-and-route validation. The main-branch Run #262 artifact was independently audited for 4/8/16/32 lanes × Direct/Fused Dadda on LFE5U-85F-6BG381C, CABGA381, speed grade 6, 100 MHz target. Only 4-lane Fused Dadda met 100 MHz. All reported results are FPGA architecture-level P&R with unconstrained external IOs, not board-level validation or silicon.
+- PR #21 remains open/Draft and untouched under the standing preservation rule; do not assume it should be merged or closed.
+- A separate pipelined Dadda experiment was developed on `research/orcus-ecp5-dadda-pipeline`, PR #22. It registers Dadda reduction levels and output, with schedule-derived latency metadata for 4/8/16/32 lanes. Those latency values remain metadata until execution-verified.
+- Run #263 on older pipeline head `b4f1a9ef60d19258e3941e00389649f52ad3e392` failed because 4-lane sequential Yosys SAT timed out after 180 seconds. It failed before streaming simulation and P&R. This was a timeout, not a counterexample.
+- EGS-0003 / Issue #25 then redesigned the proof composition: per-lane Baugh–Wooley base-case proofs, per-stage weighted-heap invariants, final CPA check, and a valid/reset-only temporal-induction proof, retaining streaming and P&R as later gates. The implementation is committed at `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4`, but source-level tests and actual Yosys/Icarus/P&R execution for that exact head remain unverified.
+- EGS-0004 / Issue #26 is therefore blocked pending an Actions run whose own head SHA exactly matches `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4`. No timing-closure claim is permitted until the exact run and artifacts pass audit.
+
+### F. EGS company identity, Lugh and operating model
+
+- EGS is the intended parent-company initiative focused on advanced computing and semiconductors; ORCUS is its research platform/product direction, not the company itself.
+- The founder's current naming note: the underlying initials are EGE; the selected EGS spelling uses the “S” associated with the founder's nickname. EGS is still a contemplated/provisional company name, not a finalized legal identity. NEM is a separate possible sister-company/product concept and must remain isolated.
+- The long-term ambition is to build major computing architectures and eventually the broader infrastructure required to compete in the NVIDIA/AMD industry landscape. This is an aspiration, not a present capability or competitive-position claim.
+- Lugh was established as the EGS engineering/execution assistant. EGS-0001 / Issue #23 records its bootstrap, private ChatGPT plugin and operating specification: support ORCUS research, engineering execution, reproducible experiments, technical validation, documentation and funding readiness. The initial Lugh plugin/skill exists; autonomous repository operations and automatic ChatGPT-session creation are not assumed unless separately implemented and verified.
+- EGS-0001, EGS-0002, EGS-0003 and EGS-0004 are the sequential execution records in Issues #23–26. Each is a work-session ledger, not a declaration that every milestone is complete.
+- Founder-stated funding objective: seek $10 million by 2026-11-30. This is a target only; it does not mean funding is committed, that the company is currently investment-ready, or that investor access/partnership is secured.
+
+### G. Current project state and evidence boundary
+
+- Active technical focus: ORCUS Milestone #3 pipeline proof, streaming/reset validation and ECP5 timing closure.
+- Last validated hardware-architecture evidence: immutable Run #262 combinational ECP5 matrix; only 4-lane Fused Dadda reaches the 100 MHz target.
+- Current pipeline experiment: PR #22 Draft; exact-head Run #264 has been audited under EGS-0005 / Issue #27. The arithmetic base and six stage/CPA proofs passed for 4 lanes, but the sequential control miter failed due to a diagnosed reference-alignment off-by-one. Streaming, execution-verified latency and pipeline P&R remain unrun.
+- Not established: sequential control/reset formal PASS; 512-vector streaming/flush/reset-leakage PASS; execution-verified pipeline latency; pipeline P&R metrics; 8/16/32-lane results; 100 MHz pipeline timing closure; a fabricated chip or silicon measurement; a commercial ORCUS product; customer traction; secured investment; NVIDIA/AMD parity.
+- Preserve Run #262 and main as the baseline. Keep PR #22 Draft pending exact-head validation/review. Keep PR #21 untouched. Keep Ceres untouched. Keep NEM isolated. Do not mix the historical Xylenic or ELSTELLA/PROJECT ORIGIN phases into active EGS/ORCUS work unless the founder explicitly changes scope.
+
+
+
+## EGS-0005 — Run #264 exact-head audit; sequential control reference alignment defect — 2026-11-27 / 2026-11-28 UTC
+
+- Execution ledger: **EGS-0005 / Issue #27** — https://github.com/bio-ctrl/EGS/issues/27 . Issue search found no existing EGS-0005 record; Issue #27 is the next sequential execution record after EGS-0004 / Issue #26.
+- Objective: Audit exact-head ORCUS CI Run #264 and its pipelined Dadda artifact; determine formal, simulation, latency and ECP5 evidence; diagnose the failing gate.
+- Exact run: ORCUS CI #264, run ID `46108410125`, URL https://github.com/bio-ctrl/EGS/actions/runs/46108410125 . Branch `research/orcus-ecp5-dadda-pipeline`; workflow `head_sha=ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4`; completed failure; elapsed 2m10s. Exact SHA and branch independently reconciled through Actions metadata.
+- PR #22 remains open, Draft and unmerged; PR head matches the exact run SHA.
+- Artifact `orcus-fpga-ecp5-pipelined-dadda`: ID `15247784604`, 76,138 bytes, SHA-256 `7edf6824f4f79f7c1f356bf0cfd45534e93b0b1e132ea531cd6dbe22d41e3800`. Downloaded ZIP and independently recomputed digest; match confirmed.
+
+### CI job outcomes
+- `test` job passed. FPGA wrapper/parser tests passed 5/5; Dadda generator/sequential-harness source tests passed 7/7.
+- FPGA job: pinned Yosys 0.33 / nextpnr-ecp5 0.6-3build5 installation passed; wrapper/parser and Dadda source tests passed; pipeline formal/streaming/synthesis/P&R runner failed at its first 4-lane configuration during sequential control formal; evidence upload succeeded; ordinary ECP5 matrix step was skipped.
+
+### Artifact inventory and proof results
+- ZIP contains exactly 25 files, all under the 4-lane run: generated RTL, pipeline manifest, four per-lane initial arithmetic miter source/log pairs, six stage miter source/log pairs, control miter source/log, and `results.json`. No 8/16/32-lane artifact directories or logs exist.
+- All four per-lane Baugh–Wooley initial heap arithmetic SAT proofs passed. Yosys CPU times: lane 0 0.03s; lane 1 0.04s; lane 2 0.03s; lane 3 0.03s.
+- All six Dadda weighted-heap stage SAT proofs passed; final stage includes final CPA check. Yosys CPU times: stage 0 3.94s; stage 1 13.47s; stage 2 2.07s; stage 3 0.30s; stage 4 0.10s; stage 5 + CPA 0.07s.
+- Sequential valid/reset temporal induction failed at the base-case check. Yosys produced a model with `bad=1` at trace step 7 while `in_valid=1` and `reset=0`; the base-case SAT instance had 2,059 variables and 5,288 clauses, with 17 cells imported per time step. No control/reset proof PASS is established.
+
+### Diagnosed root cause — formal reference-model off-by-one
+- Exact generated miter and RTL were inspected. DUT has six registered Dadda reduction stages and a separately registered `out_valid <= valid_pipe[5]`. The control miter independently creates a six-bit `ref_valid_pipe` and compares post-edge `dut_valid` against post-edge `ref_valid_pipe[5]`.
+- That reference does not model the registered output-valid boundary and is one edge ahead of the DUT output in the post-edge comparison. The counterexample is consistent with a reference-miter alignment defect, not an arithmetic datapath counterexample. This is a source/log diagnosis, not a passed formal proof or proof of complete DUT correctness.
+- Exact next fix: correct the reference model to include the registered output-valid boundary (e.g. an L+1-stage reference shift for post-edge comparison), add a regression test for the prior off-by-one, run focused tests, then dispatch CI on the new exact branch SHA. Preserve and explicitly confirm the existing latency convention against data/valid alignment.
+
+### Streaming, latency and ECP5
+- 4-lane manifest: accumulator width 10; six stages; stage targets [13, 9, 6, 4, 3, 2]; latency metadata 6 cycles. This is schedule-derived only; no execution-verified latency exists.
+- Runner stops on failed formal before Icarus streaming. No 512-vector back-to-back, flush, reset-leakage, or measured latency result exists for any width.
+- No Yosys ECP5 synthesis or nextpnr run occurred. No pipeline Fmax, logic/routing delay, LUT4, FF, MULT18X18D, netlist, timing report or routed configuration exists for any width. The ordinary ECP5 job step was skipped.
+- `results.json`: `status=failed`, `matrix=[]`, error identifies `control-valid-reset-induction formal failed for 4 lanes`. Target is LFE5U-85F-6BG381C / CABGA381 / speed grade 6 / 100 MHz, external IO unconstrained. The tool inventory reports `iverilog: invalid option -- '-'` because the version probe used an unsupported option; this did not cause Run #264 failure because streaming was never reached.
+
+### Comparison with immutable Run #262
+- Run #262 Fused Dadda combinational baseline Fmax: 4 lanes 106.26 MHz; 8 lanes 84.02 MHz; 16 lanes 73.10 MHz; 32 lanes 55.82 MHz.
+- Run #264 has no pipeline P&R metrics. Pipeline Fmax/resource/delay for all four widths are **not run / unavailable**, not zero and not timing failures. No valid pipeline-vs-baseline timing comparison can be made.
+
+### Current state superseding EGS-0004 handoff
+- Exact-head run identity is now resolved by Run #264; the previous EGS-0004 blocker (no exact-head run) is superseded.
+- EGS-0005 status: **BLOCKED** on the control miter reference-alignment defect and a required exact-head rerun. Milestone #3 is not closed; do not advance to Milestone #4.
+- Preserve main and Run #262; PR #22 stays Draft; PR #21 untouched; Ceres untouched; NEM isolated. No silicon, board-level or pipeline timing-closure claims.
+- Next action: fix the reference alignment and regression test on `research/orcus-ecp5-dadda-pipeline`, run tests, commit, trigger ORCUS CI on the resulting exact SHA, then audit all base/stage/control proofs, 512-vector streaming/flush/reset-leakage and execution-verified latency for 4/8/16/32 lanes, followed by ECP5 synthesis/P&R. Only proceed to Milestone #4 after evidence and review pass.
+
+
+## EGS-0006 — ORCUS sequential valid-control reference depth correction — 2026-11-28
+
+- Execution ledger: **EGS-0006 / Issue #28** — https://github.com/bio-ctrl/EGS/issues/28 .
+- Objective: Correct the sequential control miter's post-edge reference alignment for the DUT's separately registered `out_valid` boundary and add regression coverage across 4/8/16/32 lanes.
+- Repository: `bio-ctrl/EGS`; branch: `research/orcus-ecp5-dadda-pipeline`.
+- Starting branch head: `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4`.
+- Latest implementation head: `de04727b73afab319bc9b3f96a9c8b314d891133` (includes the final streaming-test assertion correction).
+- Files changed: `benchmarks/dadda_pipeline.py` and `tests/test_dadda_pipeline.py`.
+
+### Implementation details
+- The DUT has L registered `valid_pipe` elements followed by the separately registered `out_valid` output. The post-edge control reference now models L+1 register elements and compares `dut_valid` against reference bit L.
+- The input-to-output latency convention remains L rising-edge intervals. The manifest's `latency_cycles=L` and streaming testbench transaction/flush offset L remain unchanged; the added reference element models the output register boundary for post-edge equivalence, not an extra transaction-latency cycle.
+- Added a cross-width regression that checks the generated DUT valid pipeline plus output register, control reference depth, manifest latency, and streaming expected transaction/flush indexing for 4, 8, 16 and 32 lanes.
+
+### Validation and evidence status
+- Git object/tree/commit creation and branch-ref update succeeded; branch head is `448e4b70475feca4bd71c14ca71c1a75c3f12505`.
+- Source was inspected before editing. The GitHub connector in this session did not provide a Python test execution environment; focused and full Python tests were **not run**. No test-pass claim is made.
+- No new ORCUS CI run has been triggered or audited for the EGS-0006 head. Run #264 remains the prior evidence point; sequential control formal, streaming, execution-verified latency, and pipeline ECP5 P&R remain unverified.
+- PR #22 remains open, Draft and unmerged. Run #262 and its artifacts remain untouched. PR #21 remains untouched. Ceres remains untouched. NEM remains isolated.
+
+### Exact next action
+Run `python -m unittest tests.test_dadda_pipeline`, then the full repository test suite. Trigger ORCUS CI against exact head `de04727b73afab319bc9b3f96a9c8b314d891133`; audit the 4/8/16/32-lane base/stage/control proofs, 512-vector streaming/flush/reset-leakage, observed latency and ECP5 synthesis/P&R. Keep Milestone #3 open and do not begin Milestone #4 until all evidence and review gates pass.
+
+
+## EGS-0007 — ORCUS exact-head CI audit and Milestone #3 evidence gate — 2026-11-28
+
+- Execution ledger: **EGS-0007 / Issue #29** — https://github.com/bio-ctrl/EGS/issues/29 .
+- Objective: Audit compositional formal proofs, streaming/reset behavior, execution-verified latency and ECP5 P&R for 4/8/16/32 lanes on the EGS-0006 implementation.
+- Required repository/branch/head: `bio-ctrl/EGS`, `research/orcus-ecp5-dadda-pipeline`, `de04727b73afab319bc9b3f96a9c8b314d891133`.
+- PR #22 was independently checked: open, Draft, unmerged; its head equals the required EGS-0006 SHA.
+- Existing EGS-0007 issue search returned no prior record; Issue #29 was created.
+
+### Exact-head run discovery and audit limitation
+- The user message supplied the literal placeholder `PASTE_GITHUB_ACTIONS_URL_HERE`, not an Actions URL or run ID.
+- GitHub Actions query for `head_sha=de04727b73afab319bc9b3f96a9c8b314d891133` returned `total_count=0`.
+- The branch's latest 100 workflow-run query returned only Run #264 (ID `46108410125`, head `ee8c0a07381ef8d00a4a7457696daa67f5e4a0a4`, failure) and Run #263 (ID `46085084604`, head `b4f1a9ef60d19258e3941e00389649f52ad3e392`, failure). Neither is an EGS-0006 exact-head run.
+- Consequently no matching run ID, logs, job summaries, or uploaded artifacts were available to fetch. Do not substitute Run #264 or #263 for the required head.
+
+### Formal, simulation and latency evidence status for EGS-0006 head
+| Required check | 4 lanes | 8 lanes | 16 lanes | 32 lanes |
+|---|---|---|---|---|
+| Per-lane Baugh–Wooley arithmetic base proofs | Not auditable | Not auditable | Not auditable | Not auditable |
+| Stage weighted-heap / final CPA proofs | Not auditable | Not auditable | Not auditable | Not auditable |
+| Sequential control/reset temporal induction | Not auditable | Not auditable | Not auditable | Not auditable |
+| 512-vector streaming / flush / reset-leakage | Not auditable | Not auditable | Not auditable | Not auditable |
+| Execution-verified latency L | Not available | Not available | Not available | Not available |
+
+- No solver timings, simulation timings, or pass/fail outcomes can be attributed to the EGS-0006 head without its exact run logs/artifacts.
+- EGS-0006 source correction models L+1 reference registers for post-edge control comparison (L valid_pipe stages plus registered out_valid); manifest/streaming transaction latency convention remains L. This source change alone is not proof or simulation evidence.
+
+### ECP5 P&R comparison — immutable Run #262 vs pipeline head
+Target: LFE5U-85F-6BG381C / CABGA381 / speed grade 6 / 100 MHz. Run #262 values are the Fused Dadda combinational baseline. Pipeline metrics below are unavailable because no exact-head run/artifact was located.
+
+| Lanes | Run #262 Fmax MHz | Baseline logic ns | Baseline routing ns | Baseline LUT4 | Baseline FF | Baseline MULT18X18D | Pipeline latency L | Pipeline Fmax / 100 MHz | Pipeline logic / routing ns | Pipeline LUT4 / FF / MULT18X18D |
+|---:|---:|---:|---:|---:|---:|---:|---|---|---|---|
+| 4 | 106.26 | 3.496 | 5.390 | 260 | 42 | 0 | Not available | Not measured | Not measured | Not measured |
+| 8 | 84.02 | 4.489 | 6.888 | 579 | 75 | 0 | Not available | Not measured | Not measured | Not measured |
+| 16 | 73.10 | 4.987 | 8.168 | 1,252 | 140 | 0 | Not available | Not measured | Not measured | Not measured |
+| 32 | 55.82 | 5.931 | 11.458 | 2,400 | 269 | 0 | Not available | Not measured | Not measured | Not measured |
+
+- Pipeline 100 MHz target pass/fail is **not determined**, not a fail and not a pass. Missing P&R metrics are not zero.
+- Run #262 remains the immutable baseline; no Run #262 artifact or data was modified.
+
+### Exact next action
+Obtain the actual GitHub Actions URL or numeric run ID for the user's claimed completed dispatch. Verify that run's `head_sha` equals `de04727b73afab319bc9b3f96a9c8b314d891133`, then fetch all job logs and artifacts and audit per-lane base/stage/control proofs, 512-vector back-to-back streaming/flush/reset-leakage, observed latency, and ECP5 synthesis/nextpnr P&R. If no run exists for that exact SHA, dispatch ORCUS CI against that exact branch head and audit the new run. Keep Milestone #3 open; do not begin Milestone #4 until all evidence and review gates pass.
+
+### Preserved constraints
+- PR #22 remains Draft and unmerged.
+- PR #21 remains untouched.
+- Main and Run #262 remain preserved.
+- Ceres remains untouched; NEM remains isolated.
+- No silicon, board-level, or timing-closure claims.
+
+
+## EGS-0008 — ORCUS Run #265 exact-head pipeline audit — 2026-11-28
+
+- Execution ledger: **EGS-0008 / Issue #30** — https://github.com/bio-ctrl/EGS/issues/30 .
+- Objective: audit Run #265 logs and the `orcus-fpga-ecp5-pipelined-dadda` artifact for 4/8/16/32-lane formal, streaming/reset, execution-latency and ECP5 P&R evidence; diagnose job exit code 1 and determine Milestone #3 gate status.
+- Repository: `bio-ctrl/EGS`; branch: `research/orcus-ecp5-dadda-pipeline`; exact head: `de04727b73afab319bc9b3f96a9c8b314d891133`.
+- Run: [ORCUS CI #265](https://github.com/bio-ctrl/EGS/actions/runs/46111351324), run ID `46111351324`, event `workflow_dispatch`, completed with overall failure. Exact run metadata and both job summaries were checked. PR #22 was independently rechecked as open, Draft, unmerged, with the same exact head.
+- Existing EGS-0008 issue search returned no record; Issue #30 was created.
+
+### Artifact integrity and contents
+
+- Artifact: `orcus-fpga-ecp5-pipelined-dadda`, artifact ID `15248699954`, size 264,634 bytes (approximately 258 KiB).
+- GitHub uploaded SHA-256: `5d86bbc22e49078fa70336b127a1977d1113cfadc9b4dbfa814946be28e55b5f`; downloaded ZIP independently hashed to the same SHA-256.
+- ZIP inventory: 53 files. 4-lane directory includes generated RTL, manifest, Yosys synthesis JSON/log, nextpnr report/log, routed configuration, four initial arithmetic proof logs, six stage proof logs, sequential control induction source/log, and streaming testbench plus compile/simulation logs. 8-lane directory includes generated RTL/manifest, eight initial arithmetic proof logs, stage-0 miter source and timeout log. No 16- or 32-lane pipeline directories, formal results, streaming results, or P&R reports are present.
+- Tool versions from the FPGA job: Ubuntu 24.04.5; Python 3.11.18; Yosys 0.33 (git `2584903a060`); nextpnr-ecp5 0.6-3build5. Icarus version inventory probe printed `iverilog: invalid option -- '-'`; actual 4-lane compile and simulation passed.
+
+### Job and test outcomes
+
+- `test` job: PASS. The FPGA wrapper/report parser suite passed 5/5 tests; Dadda generator/sequential harness suite passed 8/8 tests.
+- `ORCUS FPGA ECP5 place-and-route` job: FAILURE. Toolchain installation passed. Formal/streaming/P&R benchmark failed at 8-lane stage-0 formal. Evidence artifact upload succeeded. The downstream separate FPGA implementation step was skipped; its artifact upload reported no files.
+- The 4-lane run itself completed Yosys synthesis, nextpnr P&R and simulation before the matrix advanced to 8 lanes.
+
+### Formal, streaming and latency evidence
+
+| Required check | 4 lanes | 8 lanes | 16 lanes | 32 lanes |
+|---|---|---|---|---|
+| Initial Baugh–Wooley arithmetic base proofs | 4/4 PASS; 0.0419–0.0438 s each | 8/8 PASS; approximately 0.04 s Yosys CPU each | Not run / no artifact | Not run / no artifact |
+| Weighted-heap stage proofs and final CPA | Stages 0–5 PASS; stage 5 includes final CPA | Stage 0 timed out after 180 s; later stages not run | Not run | Not run |
+| Sequential valid/reset temporal induction | PASS; depth 14; 0.2872 s | Not run | Not run | Not run |
+| 512-vector streaming, flush and reset-leakage | PASS; 512 vectors; explicit flush checks and reset stale-valid leakage checks passed | Not run | Not run | Not run |
+| Execution-verified latency L | 6 cycles | Not available; manifest schedule metadata L=8 only | Not available; no pipeline artifact (PR metadata previously listed L=10) | Not available; no pipeline artifact (PR metadata previously listed L=11) |
+
+4-lane stage proof runtimes: stage 0 / target height 13: 4.5521 s; stage 1 / height 9: 15.6226 s; stage 2 / height 6: 2.4074 s; stage 3 / height 4: 0.3520 s; stage 4 / height 3: 0.1233 s; stage 5 / height 2 with final CPA: 0.0819 s. Initial lane proof runtimes: lane 0 0.0438 s; lane 1 0.0419 s; lane 2 0.0432 s; lane 3 0.0436 s. Sequential control induction passed at depth 14 in 0.2872 s.
+
+The 4-lane streaming output is `PASS lanes=4 vectors=512 latency=6`. The generated testbench contains explicit flush-result checks and checks that reset clears `out_valid` and prevents stale transactions leaking after reset. This establishes execution-verified L=6 for 4 lanes only.
+
+### Exact exit-code-1 root cause
+
+The Python runner invoked the 8-lane stage-0 weighted-heap equivalence miter with Yosys `sat -verify -prove bad 0`. The miter imported 318 cells and generated a SAT instance with 29,530 variables and 81,907 clauses. The subprocess exceeded the configured 180-second timeout. Python raised `subprocess.TimeoutExpired`, wrapped as `TimeoutError: stage-0-heap-equivalence formal timeout for 8 lanes after 180s`, and the benchmark process exited with code 1.
+
+This is a solver runtime timeout, not a counterexample and not evidence of arithmetic inequivalence. The runner aborts at this formal gate, so 8-lane streaming, observed latency and pipeline ECP5 synthesis/P&R did not run. The separate downstream FPGA implementation step was skipped. Artifact upload after the failure succeeded.
+
+### 4-lane ECP5 pipeline result
+
+Target: LFE5U-85F-6BG381C / CABGA381 / speed grade 6; 100 MHz target; external IO unconstrained.
+
+- Yosys 0.33 synthesis: 1.1295 s.
+- nextpnr-ecp5 0.6-3build5 place-and-route: 0.7454 s.
+- Achieved synchronous clock Fmax: **335.9086 MHz**; nextpnr reports timing met at 100 MHz.
+- Critical register-to-register path: **1.7 ns logic + 1.3 ns routing**.
+- Mapped resources: **186 LUT4, 259 FF, 0 MULT18X18D**, 5 CCU2C, 8 PFUMX, 4 L6MUX21.
+- nextpnr utilization: 202 TRELLIS_COMB, 259 TRELLIS_FF, 46 TRELLIS_IO, 1 DCCA.
+
+These are device-specific FPGA P&R results, not silicon measurements. External IOs were unconstrained, so no board-level timing claim is supported.
+
+### Comparison with immutable Run #262
+
+Run #262 remains the combinational Fused Dadda baseline. Pipeline columns are populated only for the 4-lane exact-head run that completed the gates.
+
+| Lanes | Run #262 Fmax MHz | Baseline logic ns | Baseline routing ns | Baseline LUT4 / FF / MULT18X18D | Pipeline L | Pipeline Fmax / 100 MHz | Pipeline logic / routing ns | Pipeline LUT4 / FF / MULT18X18D |
+|---:|---:|---:|---:|---:|---:|---|---|---|
+| 4 | 106.26 | 3.496 | 5.390 | 260 / 42 / 0 | 6 | 335.91 / PASS | 1.7 / 1.3 | 186 / 259 / 0 |
+| 8 | 84.02 | 4.489 | 6.888 | 579 / 75 / 0 | Not verified | Not measured | Not measured | Not measured |
+| 16 | 73.10 | 4.987 | 8.168 | 1,252 / 140 / 0 | Not verified | Not measured | Not measured | Not measured |
+| 32 | 55.82 | 5.931 | 11.458 | 2,400 / 269 / 0 | Not verified | Not measured | Not measured | Not measured |
+
+The 4-lane pipeline result exceeds the 100 MHz target in the reported clock domain. Do not extrapolate it to larger widths. Pipeline timing/resource metrics for 8/16/32 are not measured, not zero, and not timing failures.
+
+### Milestone decision and exact next action
+
+- **Milestone #3 remains OPEN and BLOCKED. Do not begin Milestone #4.** 4 lanes has complete evidence; 8 lanes is blocked by stage-0 proof timeout; 16/32 lanes have no pipeline evidence.
+- Next action: investigate the 8-lane stage-0 weighted-heap miter's 29,530-variable / 81,907-clause SAT growth. Evaluate a sound partitioned proof decomposition that preserves exact weighted-heap semantics and add regression checks relating partitions to the whole-stage obligation. Preserve timeout history; do not weaken proof requirements or relabel timeout as pass.
+- Run focused tests, commit the correction on the research branch, and rerun ORCUS CI at a new exact head. Complete 8-lane stage proofs, sequential control, 512-vector streaming/flush/reset-leakage, observed latency and P&R. Then obtain the same full evidence for 16 and 32 lanes. Compare against Run #262 using the same target and constraints.
+- Only after all widths pass and PR #22 is reviewed may Milestone #3 be considered for closure and Milestone #4 (MAC + local-memory inference tile) begin.
+
+### Preserved constraints
+
+- Main and Run #262 remain preserved; Run #262 is immutable.
+- PR #22 remains Draft and unmerged.
+- PR #21 remains untouched.
+- Ceres remains untouched; NEM remains isolated.
+- No silicon claims, no board-level timing claims, and no unsupported multi-width timing-closure claims.
+
+
+---
+
+## EGS-0009 — Per-column Dadda stage proof partitioning
+
+- **Execution issue:** [EGS-0009 / Issue #31](https://github.com/bio-ctrl/EGS/issues/31)
+- **Follow-up to:** [EGS-0008 / Issue #30](https://github.com/bio-ctrl/EGS/issues/30)
+- **Repository:** `bio-ctrl/EGS`
+- **Branch:** `research/orcus-ecp5-dadda-pipeline`
+- **Starting commit:** `de04727b73afab319bc9b3f96a9c8b314d891133` (Run #265 exact head)
+- **Final branch head:** `d36ff48f7557a987b283472c89c01852af3b8bd2`
+- **PR:** #22 remains open, Draft, and unmerged.
+
+### Objective
+
+Replace the monolithic whole-stage weighted-heap SAT miter that timed out at 8-lane stage 0 in Run #265 with independent per-column compressor-conservation proofs and complete stage bit accounting. Preserve the RTL implementation and all historical baselines.
+
+### Implementation
+
+1. `benchmarks/dadda_pipeline.py`
+   - Added `validate_stage_bit_partition` to validate each stage's primary input bits, intra-stage carry tokens, compressor sum outputs, and pass-through tokens.
+   - Every primary input token is accounted for exactly once: consumed by one compressor or passed through.
+   - Every generated carry token is accounted for exactly once: consumed in the next column or passed through into the output heap. Carry weight must be exactly column (c+1).
+   - Every compressor sum output is assigned to its originating column and must appear exactly once in the output heap.
+   - Rejects unknown, dropped, duplicated, aliased, or misweighted tokens. The top-column carry is explicitly truncated modulo (2^W).
+   - Added independent column SAT miters. Each nonempty column proves the local conservation identity for its compressor inputs, sum outputs, and outgoing carries. Carries entering a column from the preceding column are independent bit inputs to that column's proof. The MSB uses parity equivalence modulo two.
+   - Kept final carry-propagate-adder equivalence as a separate SAT miter; the existing sequential valid/reset induction remains separate.
+   - Updated `run_formal` to record per-column proof timings and stage-level accounting, then execute final CPA and control proofs.
+
+2. `tests/test_dadda_pipeline.py`
+   - Added all-width/all-stage checks for bit accounting and per-column miter generation across 4, 8, 16, and 32 lanes.
+   - Added negative regressions for dropped output bits, duplicated output bits, duplicated compressor inputs, and misweighted carries.
+   - Added separate final CPA miter checks for every supported width.
+
+### Verification and evidence status
+
+- Final branch head verified from GitHub: `d36ff48f7557a987b283472c89c01852af3b8bd2`.
+- GitHub compare from starting head `de04727...` confirms exactly two modified files: `benchmarks/dadda_pipeline.py` and `tests/test_dadda_pipeline.py`.
+- `orcus/dadda_pipeline.py` is unchanged; no pipelined RTL was edited.
+- The final branch tree was read back and contains the full original repository tree. No unrelated files remain changed.
+- Unit tests and Python compilation were **not run** in this session.
+- Yosys column SAT, final CPA SAT, sequential induction, Icarus streaming, latency verification, synthesis, and nextpnr P&R were **not run** in this session.
+- Exact-head GitHub Actions query for `d36ff48f7557a987b283472c89c01852af3b8bd2` returned 0 runs. No manual workflow dispatch was performed; the connected GitHub actions available in this session do not expose a workflow-dispatch operation.
+- Status: **implementation committed; awaiting manual exact-head ORCUS CI validation**. No proof pass, timing, or hardware metric is claimed.
+
+### Exact next action
+
+Manually trigger ORCUS CI for PR #22 / branch `research/orcus-ecp5-dadda-pipeline` at exact head `d36ff48f7557a987b283472c89c01852af3b8bd2`. First inspect the unit-test and compileall gates. Then audit each width's per-column SAT logs and accounting, separate final CPA proof, sequential control/reset induction, 512-vector streaming/flush/reset leakage, execution-verified latency, and ECP5 Yosys/nextpnr reports. If a column proof fails or times out, preserve its exact log and counterexample/timeout state; do not relabel it as a pass. Keep Milestone #3 open until every required gate passes for all four widths.
+
+### Preservation constraints
+
+- Main and Run #262 remain immutable.
+- PR #22 remains Draft and unmerged pending review and all gates.
+- PR #21 remains untouched.
+- Ceres remains untouched.
+- NEM remains isolated.
+- No silicon or board-level claims.
+
+
+---
+
+## EGS-0010 — ORCUS CI Run #266 audit intake and evidence-access blocker — 2026-11-28
+
+- **Execution issue:** [EGS-0010 / Issue #32](https://github.com/bio-ctrl/EGS/issues/32).
+- **Objective:** Audit ORCUS CI Run #266 at exact EGS-0009 head, determine all 4/8/16/32-lane formal, streaming, latency and ECP5 P&R outcomes, identify the exact exit-code-1 cause, and decide whether Milestone #3 can close.
+- **Repository:** `bio-ctrl/EGS`.
+- **Branch/head supplied:** `research/orcus-ecp5-dadda-pipeline` / `d36ff48f7557a987b283472c89c01852af3b8bd2`.
+- **PR constraint:** PR #22 remains Draft/unmerged; PR #21 untouched. Main and Run #262 are preserved. Ceres untouched; NEM isolated.
+
+### Run #266 intake — user-supplied, not independently verified
+
+- Workflow: ORCUS CI #266; reported duration 4m 55s.
+- `test` job reported passed.
+- `ORCUS FPGA ECP5 place-and-route` reported exited with code 1 after uploading its artifact.
+- Artifact name: `orcus-fpga-ecp5-pipelined-dadda`; reported size 1.74 MB.
+- Supplied SHA-256: `f07ab31d226bf907e91584deec36f726ef6e3c81957342a57d7c50e8a0602bd2`.
+- These facts are recorded as user-provided intake only; no log, job metadata, artifact manifest, or digest has yet been independently checked.
+
+### Access and audit results this session
+
+- Re-read the latest `STATUS.md` from `main` before repository actions; its pre-update blob SHA was `4476fb230c7796bf5554c8f7b3545fbc26f439af`.
+- Searched repository issues for `EGS-0010`; no existing issue was found. Created [Issue #32](https://github.com/bio-ctrl/EGS/issues/32) as the EGS-0010 execution record.
+- Queried commit-associated workflow runs for exact head `d36ff48f7557a987b283472c89c01852af3b8bd2`; the connected lookup returned an empty list. Its documented behavior filters to pull-request-triggered runs, so this does not disprove the user's reported workflow_dispatch run.
+- The available GitHub integration exposes fetch-by-job-ID and download-by-artifact-ID operations, but no workflow-run listing/get operation for discovering the numeric run ID and artifact ID of this dispatch run.
+- The user supplied the workflow run number (#266), but not its numeric Actions run ID/URL, job IDs, or artifact ID. Without those identifiers the raw job logs and ZIP cannot be fetched through the available integration.
+- Therefore: no independently audited proof timings, pass/fail outcomes, streaming results, observed latency, Yosys/nextpnr reports, resource counts, Fmax, or exact failure root cause are available from this session. Do not infer the root cause from exit code 1 or artifact upload success.
+
+### Formal and implementation evidence matrix — Run #266
+
+| Required gate | 4 lanes | 8 lanes | 16 lanes | 32 lanes |
+|---|---|---|---|---|
+| Initial Baugh–Wooley arithmetic base proofs | Not independently audited | Not independently audited | Not independently audited | Not independently audited |
+| Per-column compressor-conservation and bit accounting | Not independently audited | Not independently audited | Not independently audited | Not independently audited |
+| Final CPA equivalence | Not independently audited | Not independently audited | Not independently audited | Not independently audited |
+| Sequential control/reset induction | Not independently audited | Not independently audited | Not independently audited | Not independently audited |
+| 512-vector streaming / flush / reset leakage | Not independently audited | Not independently audited | Not independently audited | Not independently audited |
+| Execution-verified latency L | Not available | Not available | Not available | Not available |
+| ECP5 Yosys synthesis / nextpnr P&R | Not independently audited | Not independently audited | Not independently audited | Not independently audited |
+
+### Run #262 immutable baseline — retained unchanged
+
+Target: LFE5U-85F-6BG381C / CABGA381 / speed grade 6 / 100 MHz. Run #262 is the combinational Fused Dadda baseline, not a pipelined implementation.
+
+| Lanes | Baseline Fmax MHz | Logic delay ns | Routing delay ns | LUT4 | FF | MULT18X18D |
+|---:|---:|---:|---:|---:|---:|---:|
+| 4 | 106.26 | 3.496 | 5.390 | 260 | 42 | 0 |
+| 8 | 84.02 | 4.489 | 6.888 | 579 | 75 | 0 |
+| 16 | 73.10 | 4.987 | 8.168 | 1,252 | 140 | 0 |
+| 32 | 55.82 | 5.931 | 11.458 | 2,400 | 269 | 0 |
+
+No pipeline-vs-baseline comparison can yet be completed. All Run #266 pipeline metrics remain not independently audited; target pass/fail is undetermined, not presumed fail or pass.
+
+### Exact next action and gate decision
+
+1. Obtain the Run #266 GitHub Actions URL or numeric run ID and the artifact ID (or a connector-usable artifact file reference).
+2. Fetch both job records, step summaries, raw logs, and the named artifact. Independently calculate the downloaded ZIP SHA-256 and compare it with the supplied digest.
+3. Audit every width's initial arithmetic proofs, all per-column proofs and accounting, separate final CPA proof, sequential reset/control induction, 512-vector streaming/flush/reset-leakage simulation, execution-observed latency, and every Yosys/nextpnr report. Extract exact command exit codes, solver runtimes, exception text, and the failure step to diagnose exit code 1.
+4. Populate pipeline-vs-Run-#262 comparison only with raw artifact values; preserve the baseline and label unavailable fields as not measured.
+5. **Milestone #3 remains OPEN/BLOCKED. Do not begin Milestone #4 (MAC + local-memory inference tile).** Keep PR #22 Draft/unmerged until exact-head evidence and review gates pass.
+
+### Evidence boundaries
+
+- No silicon or board-level claims.
+- Do not reinterpret a timeout as inequivalence or an exit code as a proof failure without its actual log.
+- Preserve all negative results, missing evidence, and tool failures.
+
+
+---
+
+## EGS-0011 — ORCUS CI Run #266 verified audit — 2026-11-28
+
+- **Execution issue:** [EGS-0011 / Issue #33](https://github.com/bio-ctrl/EGS/issues/33).
+- **Run:** [ORCUS CI #266](https://github.com/bio-ctrl/EGS/actions/runs/46112797591), numeric ID `46112797591`.
+- **Exact branch/head:** `research/orcus-ecp5-dadda-pipeline` @ `d36ff48f7557a987b283472c89c01852af3b8bd2`.
+- **Jobs:** failed ECP5 job ID `140879858977`; passed general test job ID `140879859194`.
+- **Artifact:** [orcus-fpga-ecp5-pipelined-dadda](https://github.com/bio-ctrl/EGS/actions/runs/46112797591/artifacts/15250192965), artifact ID `15250192965`, 1,825,389 bytes / 565 files.
+- **Artifact integrity:** downloaded ZIP SHA-256 independently calculated as `f07ab31d226bf907e91584deec36f726ef6e3c81957342a57d7c50e8a0602bd2`, matching GitHub's artifact digest exactly.
+- **PR:** #22 remains Draft/unmerged. PR #21 untouched. Main and Run #262 preserved. Ceres untouched; NEM isolated.
+
+### Exact root cause of exit code 1
+
+The ECP5 job failed in step 7, `Run 4/8/16/32-lane pipelined Dadda formal, streaming, synthesis, and place-and-route`. It stopped during 32-lane formal validation at `stage-0-column-4-conservation`.
+
+- Yosys command: `read_verilog .../stage-0-column-4-conservation.v; prep -top orcus_dadda_stage_column_miter_32_0_4; flatten; opt_clean -purge; sat -verify -prove bad 0`.
+- SAT instance: 10,463 variables and 28,829 clauses.
+- Timeout: 180 seconds.
+- Python raised `subprocess.TimeoutExpired`, wrapped as `TimeoutError: stage-0-column-4-conservation formal timeout for 32 lanes after 180s`; process exited code 1.
+- This is a SAT solver scalability timeout, not an inequivalence counterexample and not an ECP5 timing failure.
+- Step 8 uploaded the evidence artifact successfully. Step 9, the separate 4/8/16/32 ECP5 synthesis/P&R stage, was skipped after the formal failure; the subsequent P&R artifact upload found no files.
+
+### CI tests
+
+- FPGA wrapper/report-parser tests: 5/5 passed.
+- Pipelined Dadda generator/sequential harness tests: 10/10 passed.
+- General test job: 89 tests passed in 6.805 seconds.
+- `python -m compileall -q orcus tests examples benchmarks` executed successfully; general test job concluded success.
+
+### Formal and streaming evidence
+
+| Width | Initial Baugh–Wooley SAT | Per-column conservation SAT | Final CPA | Control/reset induction | 512-vector streaming, flush, reset-leakage | Observed latency L |
+|---:|---:|---:|---|---|---|---:|
+| 4 | 4/4 PASS | 41/41 PASS; stage column counts 2, 4, 6, 9, 10, 10 | PASS, 0.0322 s | PASS, 0.3401 s, induction depth 14 | PASS | 6 |
+| 8 | 8/8 PASS | 64/64 PASS; stage counts 2, 4, 6, 8, 11, 11, 11, 11 | PASS, 0.0357 s | PASS, 0.8631 s, induction depth 18 | PASS | 8 |
+| 16 | 16/16 PASS | 92/92 PASS; stage counts 2, 4, 6, 8, 12, 12, 12, 12, 12, 12 | PASS, 0.0413 s | PASS, 2.3337 s, induction depth 22 | PASS | 10 |
+| 32 | 32/32 PASS | Stage 0 columns 2 and 3 PASS; column 4 TIMEOUT at 180 s | Not reached | Not reached | Not reached | Not execution-verified; manifest declares 11 |
+
+Initial proof aggregate runtimes: 4 lanes 0.1991 s; 8 lanes 0.3937 s; 16 lanes 0.8255 s. Per-column proof aggregate runtimes: 4 lanes 0.6702 s; 8 lanes 1.6203 s; 16 lanes 40.2389 s. For 32 lanes, initial per-lane arithmetic proofs all passed; only two stage-0 column proofs completed before the stage-0 column-4 timeout.
+
+Simulation logs report exactly `PASS lanes=4 vectors=512 latency=6`, `PASS lanes=8 vectors=512 latency=8`, and `PASS lanes=16 vectors=512 latency=10`. Testbench source for each completed width includes flush checks, reset clearing of valid, and stale-transaction leakage checks after reset. No 32-lane simulation was reached.
+
+### ECP5 synthesis and post-route results
+
+Target: Lattice `LFE5U-85F-6BG381C`, package `CABGA381`, speed grade 6, 100 MHz target, external IO unconstrained. Tools: Yosys 0.33 (`2584903a060`); nextpnr-ecp5 0.6-3build5.
+
+| Lanes | Fmax MHz | 100 MHz target | Critical-path logic ns | Critical-path routing ns | Clock-to-Q ns | LUT4 | FF | MULT18X18D |
+|---:|---:|---|---:|---:|---:|---:|---:|---:|
+| 4 | 335.9086 | PASS | 1.134 | 1.318 | 0.525 | 186 | 259 | 0 |
+| 8 | 313.2832 | PASS | 1.174 | 1.493 | 0.525 | 393 | 568 | 0 |
+| 16 | 313.6763 | PASS | 1.174 | 1.489 | 0.525 | 799 | 1,193 | 0 |
+| 32 | Not run | Not measured | Not measured | Not measured | Not measured | Not measured | Not measured | Not measured |
+
+Logic/routing/clock-to-Q values are sums by segment type from the first detailed post-route critical path in each nextpnr report; totals are approximately 2.977 ns, 3.192 ns, and 3.188 ns. Pipeline synthesis, nextpnr report, routed config, and logs exist for 4/8/16 only. The 32-lane artifact directory has design RTL, manifest, and partial validation logs but no synth/P&R outputs. These results are not board-level timing because external IOs are unconstrained.
+
+### Run #262 comparison — immutable combinational Fused Dadda baseline
+
+| Lanes | Run #262 Fmax MHz | Run #262 logic/routing ns | Run #266 observed L | Run #266 pipeline Fmax MHz | Run #266 pipeline logic/routing ns | Run #266 LUT4 / FF / MULT18X18D |
+|---:|---:|---:|---:|---:|---:|---:|
+| 4 | 106.26 | 3.496 / 5.390 | 6 | 335.9086 | 1.134 / 1.318 | 186 / 259 / 0 |
+| 8 | 84.02 | 4.489 / 6.888 | 8 | 313.2832 | 1.174 / 1.493 | 393 / 568 / 0 |
+| 16 | 73.10 | 4.987 / 8.168 | 10 | 313.6763 | 1.174 / 1.489 | 799 / 1,193 / 0 |
+| 32 | 55.82 | 5.931 / 11.458 | Not verified (manifest 11) | Not run | Not measured | Not measured |
+
+Run #262 is combinational and Run #266 is pipelined; retain the design distinction when interpreting this comparison. Do not claim silicon, board-level, or product-level performance.
+
+### Exact next engineering action
+
+Reduce the 32-lane stage-0 column-4 SAT cone while preserving exact compressor-token/bit accounting. Preferred route: prove reusable full-adder/half-adder local conservation lemmas and compose them through the token graph, or partition the column into bounded subproofs with explicit intermediate carry/sum token accounting. Keep final CPA and sequential induction separate. Add a regression for the exact 32-lane stage-0 column-4 case recording variables, clauses, and runtime. Re-run unit tests, compileall, and exact-head ORCUS CI; then audit all 32-lane gates and all widths. Do not simply raise the timeout or relabel timeout as pass.
+
+### Milestone and evidence status
+
+- 4/8/16 lanes: formal, streaming, and ECP5 100 MHz target gates passed in Run #266.
+- 32 lanes: arithmetic base proofs passed; per-column SAT timed out at stage 0 column 4; later gates not reached.
+- **Milestone #3 remains OPEN/BLOCKED. Do not begin Milestone #4 (MAC + local-memory inference tile).**
+- No silicon or board-level claims. Preserve failures and unavailable evidence.
+
+### Historical note
+
+EGS-0010's prior STATUS entry recorded the initial artifact-access blocker. EGS-0011 resolves that access blocker and supersedes its provisional Run #266 evidence table with the verified audit above; the EGS-0010 record remains as execution history.
+
+---
+
+## EGS-0012 — Atomic FA/HA compositional proof implementation — 2026-11-28
+
+- **Execution issue:** [EGS-0012 / Issue #34](https://github.com/bio-ctrl/EGS/issues/34), follow-up to [EGS-0011 / Issue #33](https://github.com/bio-ctrl/EGS/issues/33).
+- **Repository / branch:** `bio-ctrl/EGS`, `research/orcus-ecp5-dadda-pipeline`.
+- **Starting head:** `d36ff48f7557a987b283472c89c01852af3b8bd2`.
+- **Final branch head:** `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a` ([commit](https://github.com/bio-ctrl/EGS/commit/1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a)).
+- **Files changed:** only `benchmarks/dadda_pipeline.py` and `tests/test_dadda_pipeline.py`. `orcus/dadda_pipeline.py` was not modified.
+- **Execution commits:** `d35ddb6a51f1f4b9a6ed76e922d884b3335d7649`, `4bad2629a0743dd6d98545cf6a6dbe6a4fffa81b`, `55a6c741381d254d4222bc6b3c5c99a01912e981`, `f2273825284d0b5558bd6968ed4d45a2f175de09`, `06eac6bae723e02e1a732cfae1d0cbf1a859d6f0`, `66e85616a04736e999357ea19cd559d5ac6e8308`, `e977f06513baf3fc88eaaae4f20228ceeba2aa2c`, `ceb4845e0821058fec023de001e32efe79d8713d`, `84dbc7bfa3e33d3b04bb938dda9f316c4a8b6e45`, `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`.
+- **Implementation:** added atomic 1-bit FA and HA conservation miter generators; `run_formal` executes each as a separate Yosys SAT lemma and returns their proof records. Replaced multi-compressor per-column SAT calls in the formal run with stage-level composition using the atomic lemmas plus exact token ownership/weight accounting. Added emitted-Verilog equation matching for every FA/HA sum and carry, exact stage register assignment checks for all output/pass-through tokens, and explicit MSB modulo-`2^W` truncation checks. Initial Baugh–Wooley lane proofs, final CPA equivalence, and sequential control/reset induction remain separate and unchanged.
+- **Regression coverage:** atomic FA/HA miter structure; all stages across all widths; miswired FA/HA pins; dropped/duplicated output bits; dropped/duplicated register tokens; misweighted carry columns; dedicated 32-lane Stage 0 Column 4 graph structure.
+- **Validation:** files were fetched back from the final branch head. Exact-head PR workflow-run lookup returned an empty list. No unit tests, compileall, Yosys SAT, streaming, or ECP5 P&R have been run against the new head in this execution. No sub-second runtime claim is made.
+- **Ready state:** branch is prepared for the final Milestone #3 ORCUS CI trigger. This is readiness to trigger, not a validation pass. Run #267 must target exact head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`.
+- **Boundaries:** PR #22 remains Draft/unmerged; PR #21 untouched; main and Run #262 immutable; Ceres untouched; NEM isolated; no silicon or board-level claims.
+- **Status:** implementation committed; validation pending; Milestone #3 remains OPEN/BLOCKED.
+- **Next action:** trigger ORCUS CI against the exact final branch head, then audit atomic FA/HA SAT runtimes, all stage graph proofs, 32-lane final CPA and sequential induction, 512-vector streaming/flush/reset, observed latency, and 4/8/16/32 ECP5 P&R artifacts. Do not begin Milestone #4 until all gates pass.
+
+---
+
+## EGS-0013 — ORCUS CI Run #267 audit; Milestone #3 complete; Milestone #4 specified — 2026-11-28
+
+- **Execution issue:** [EGS-0013 / Issue #35](https://github.com/bio-ctrl/EGS/issues/35), following EGS-0012 / Issue #34.
+- **Run:** [ORCUS CI #267](https://github.com/bio-ctrl/EGS/actions/runs/46114719350), ID `46114719350`, completed `success` in 2m06s (06:01:47Z–06:03:53Z).
+- **Exact source:** branch `research/orcus-ecp5-dadda-pipeline`, head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`. Run's head SHA exactly matches the validated EGS-0012 commit.
+- **Jobs:** `test` job `140885841251` passed; `ORCUS FPGA ECP5 place-and-route` job `140885841427` passed.
+- **Artifacts:** pipelined Dadda artifact ID `15251480221`, 1,864,608 bytes, SHA-256 `c4b8e56595ceca3b592aecafa74d4644237d2344f1dbf8cd139f02287bc8d0c0`; ECP5 P&R artifact ID `15251063434`, 1,297,755 bytes, SHA-256 `79dfd7cf85be05d3d8114f2e2eaa14437a2881b3b67975b04c1e3a731cd41476`. Both downloaded ZIPs were independently hashed and matched GitHub's published digests.
+- **Target/toolchain:** Lattice ECP5 `LFE5U-85F-6BG381C`, `CABGA381`, speed grade 6, 100 MHz; Yosys 0.33 (`2584903a060`); nextpnr-ecp5 0.6-3build5. External IOs unconstrained.
+
+### Run #267 formal / graph / streaming evidence
+
+| Lanes | FA SAT s | HA SAT s | Baugh–Wooley proofs / aggregate s | Stage count / columns composed | Compressor instances audited | Registered bits audited | Final CPA s | Control induction s / depth | 512-vector streaming | Observed L |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|
+| 4 | 0.012345 | 0.010684 | 4/4 / 0.160972 | 6 / 60 | 66 | 288 | 0.026831 | 0.267871 / 14 | PASS | 6 |
+| 8 | 0.012813 | 0.010819 | 8/8 / 0.322165 | 8 / 88 | 150 | 690 | 0.029982 | 0.711454 / 18 | PASS | 8 |
+| 16 | 0.011905 | 0.010254 | 16/16 / 0.673759 | 10 / 120 | 329 | 1,595 | 0.034317 | 1.850986 / 22 | PASS | 10 |
+| 32 | 0.011729 | 0.010215 | 32/32 / 1.444233 | 11 / 143 | 702 | 2,874 | 0.036849 | 5.043375 / 24 | PASS | 11 |
+
+- All atomic FA and HA logs end with Yosys `SAT proof finished - no model found: SUCCESS!`.
+- All initial Baugh–Wooley lane proofs passed. All stage graph composition records and exact emitted-Verilog compressor/register wiring checks passed. Stage composition is a structural ownership/weight audit, not an additional SAT job; no independent wall-clock time is emitted for that Python audit.
+- Sum of reported FA/HA + initial Baugh–Wooley + final CPA + sequential-induction solver runtimes: 0.478704s / 1.087233s / 2.581223s / 6.546401s for 4/8/16/32 lanes. This sum excludes uninstrumented structural-audit time. Atomic FA/HA lemmas individually complete in approximately 10–13 ms each.
+- Every width's simulation log explicitly reports `PASS lanes=N vectors=512 latency=L`. Each testbench includes back-to-back traffic, flush, reset, and stale-transaction/reset-leakage checks.
+- CI tests: 94 tests passed in 8.446s; compileall succeeded. FPGA wrapper/report-parser tests: 5/5 in 0.016s. Pipelined Dadda generator/sequential harness tests: 15/15 in 1.914s.
+
+### Run #267 ECP5 results and Run #262 comparison
+
+Run #262 is the immutable **combinational** Fused Dadda baseline; Run #267 is the validated **pipelined** Dadda design. Compare Fmax as architecture-level evidence, not as a like-for-like combinational timing comparison.
+
+| Lanes | Run #262 Fmax MHz | Run #267 Fmax MHz | 100 MHz target | Run #262 logic / routing / clk-to-Q ns | Run #267 logic / routing / clk-to-Q ns | Run #262 LUT4 / FF / MULT18X18D | Run #267 LUT4 / FF / MULT18X18D | Run #267 L |
+|---:|---:|---:|---|---:|---:|---:|---:|---:|
+| 4 | 106.2586 | 335.9086 | PASS | 3.496 / 5.390 / 0.525 | 1.134 / 1.318 / 0.525 | 260 / 42 / 0 | 186 / 259 / 0 | 6 |
+| 8 | 84.0195 | 313.2832 | PASS | 4.489 / 6.888 / 0.525 | 1.174 / 1.493 / 0.525 | 579 / 75 / 0 | 393 / 568 / 0 | 8 |
+| 16 | 73.0994 | 313.6763 | PASS | 4.987 / 8.168 / 0.525 | 1.174 / 1.489 / 0.525 | 1,252 / 140 / 0 | 799 / 1,193 / 0 | 10 |
+| 32 | 55.8223 | 324.1491 | PASS | 5.931 / 11.458 / 0.525 | 1.245 / 1.315 / 0.525 | 2,400 / 269 / 0 | 1,655 / 2,012 / 0 | 11 |
+
+- Run #267 Yosys synthesis / nextpnr P&R elapsed times: 4 lanes 1.071405s / 0.817732s; 8 lanes 2.217624s / 1.210140s; 16 lanes 5.679282s / 1.735106s; 32 lanes 14.197711s / 4.722756s.
+- All four Run #267 nextpnr reports set `timing_met=true`. All four exceed 100 MHz. All four use fewer LUT4s than Run #262 and zero `MULT18X18D`; FF counts rise because the pipelined design registers intermediate heaps. No silicon or board-level claims; external IOs are unconstrained.
+
+### Milestone #3 verdict and PR #22 disposition
+
+- **Milestone #3 technical acceptance criteria: COMPLETE.** All four lane widths passed base arithmetic, atomic FA/HA, all-stage graph/wiring and bit-accounting, final CPA, sequential control/reset induction, 512-vector streaming/flush/reset-leakage, synthesis, and ECP5 P&R.
+- **PR #22:** [ORCUS: Pipelined Dadda ECP5 timing-closure experiment (Run #267 validated)](https://github.com/bio-ctrl/EGS/pull/22) was converted from Draft to Ready for review and its description updated with the Run #267 audit. It remains open and unmerged.
+- **Merge blocker:** GitHub reports `mergeable=false` / `mergeable_state=dirty`; comparison with current `main` reports diverged history. Reconcile the branch/base conflict and run CI on the merge candidate before merge. No merge was performed or authorized.
+- PR #21 untouched; Run #262 and main baseline preserved; Ceres untouched; NEM isolated.
+
+### Milestone #4 — ORCUS MAC + Local-Memory Inference Tile v1 specification
+
+**Compute contract**
+- Reuse the validated pipelined Dadda signed-INT4 dot-product core unchanged. Parameterize lane count `N ∈ {4,8,16,32}`; each row contains N signed INT4 A values and N signed INT4 B values, with one row dot-product per core input transaction.
+- Dot-product width `W_DOT = 8 + ceil(log2(N))`: 10, 11, 12, 13 bits for 4/8/16/32 lanes, matching Run #267 manifests.
+- Preserve core latency `L={6,8,10,11}` and one input row per cycle.
+
+**Local-memory architecture**
+- Two independent synchronous true-dual-port scratchpads: A and B. Each word is packed `N × INT4`; one host/load write port and one compute read port; registered synchronous read only.
+- Each operand memory has exactly 16,384 logical bits (2 KiB): N=4: 16-bit × 1,024 words; N=8: 32-bit × 512; N=16: 64-bit × 256; N=32: 128-bit × 128. Total A+B logical capacity 32,768 bits (4 KiB), or 4,096 INT4 values per operand.
+- Infer ECP5 `DP16KD` block RAM, not flip-flop arrays or LUT-only storage. Expected minimum packing per operand: 1/1/2/4 DP16KD for N=4/8/16/32 (2/2/4/8 total for A+B), subject to actual Yosys mapping. This is a target, not an achieved result.
+- Host writes only while compute is idle in v1; prohibit same-address read/write collisions. Memory contents are not reset; controller and valid state are reset.
+
+**MAC accumulation and control**
+- Accumulate K consecutive row dot-products; `K_MAX=memory_depth`. Use full-precision `W_ACC = W_DOT + ceil(log2(K_MAX)) = 20` bits for all four configurations. No truncation or saturation in v1.
+- Load interface: `wr_addr`, `a_we`, `b_we`, `a_wdata[N*4-1:0]`, `b_wdata[N*4-1:0]`.
+- Compute interface: `start`, `base_addr`, `k_length`, `busy`, `done`, `result_valid`, signed 20-bit `result_data`.
+- Controller issues one synchronous A/B memory read per cycle for K rows; pipeline `first`/`last` tags with valid through BRAM read and Dadda core. V1 has one accumulation context; no interleaved contexts or DMA.
+- Target request-to-result latency is `L+2` cycles: one synchronous BRAM read cycle, existing L-cycle core, one accumulator result-register cycle. This is a design target to be cycle-verified, not measured evidence. Core accepts one row/cycle; one K-row result is emitted per K input rows.
+- Synchronous active-high reset clears controller, valid/tag pipelines, accumulator and result-valid; memory contents are retained/unspecified. Reset must prevent stale reads or partial sums becoming valid outputs.
+
+**Milestone #4 acceptance gates**
+1. Signed-INT4 golden-model equivalence across all lane counts and K boundary cases.
+2. SAT for dot-product and full-precision accumulator arithmetic, including signed extrema.
+3. Sequential induction for first/last/valid/reset alignment.
+4. 512+ back-to-back memory-fed simulations, flush, reset-leakage, and address-bound checks.
+5. Synthesis evidence for exact memory dimensions and DP16KD inference; reject accidental FF/LUT memory mapping.
+6. ECP5 synthesis/P&R on the same device and 100 MHz target for all lane counts.
+7. Report LUT4/FF/DP16KD/MULT18X18D, Fmax, and timing-path breakdown against Run #267. No silicon or board-level claims.
+
+**Execution sequence**
+- M4.1: write the interface contract, signed golden reference model, parameter/width/depth assertions, and tests.
+- M4.2: implement A/B BRAM scratchpads and prove DP16KD inference.
+- M4.3: implement K-loop address controller and first/last tagging.
+- M4.4: add 20-bit full-precision accumulator and formal/streaming gates.
+- M4.5: run all-width ECP5 synthesis/P&R and audit resource/timing deltas.
+- Begin with 32 lanes as the stress configuration, then validate 4/8/16.
+
+### EGS-0013 status and next action
+
+- **Status:** Run #267 audited; artifacts hash-verified; Milestone #3 technically complete; Milestone #4 architecture specified; PR #22 ready for review but not mergeable until base-history conflict is resolved.
+- **Next exact action:** create a dedicated Milestone #4 branch from validated head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; implement M4.1 golden model, interface contract, width/depth assertions, and regression tests before adding memory RTL. Keep the Run #267 pipelined Dadda core immutable.
+- Do not merge PR #22 automatically. Do not alter PR #21, Run #262, Ceres, or NEM.
+
+
+
+---
+
+## EGS-0014 — Session handoff; Milestone #3 closed; Milestone #4 / M4.1 queued — 2026-11-28
+
+- **Execution issue:** [EGS-0014 / Issue #undefined](undefined).
+- **Objective:** clean end-of-session handoff; preserve verified Run #267 evidence and make the next session's first actions unambiguous.
+- **Milestone #3 evidence:** [ORCUS CI Run #267](https://github.com/bio-ctrl/EGS/actions/runs/46114719350), exact head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`. All 4/8/16/32 lane configurations passed the recorded formal checks, 512-vector streaming/flush/reset-leakage simulations, and ECP5 synthesis/P&R gates.
+- **Post-route Fmax:** 335.9086 / 313.2832 / 313.6763 / 324.1491 MHz for 4/8/16/32 lanes respectively, against 100 MHz. Execution-verified Dadda core latencies: 6 / 8 / 10 / 11 cycles.
+- **Measurement boundary:** ECP5 FPGA implementation evidence only; target LFE5U-85F-6BG381C, CABGA381, speed grade 6; external IOs unconstrained. No silicon or board-level claims.
+- **PR #22:** remains Ready for review, open and unmerged. The `STATUS.md` merge conflict / `mergeable_state=dirty` condition is unresolved. Reconcile the conflict/base-history condition and rerun CI on the merge candidate; human approval is required before any merge.
+- **Preservation:** PR #21 untouched; Run #262 and Run #267 preserved; Ceres untouched; NEM isolated.
+- **Exact next action — sequence:** (1) reconcile PR #22's `STATUS.md` conflict and verify it remains Ready for review, then rerun CI on the merge candidate; do not merge; (2) create `research/orcus-inference-tile` from validated commit `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; (3) execute Milestone #4 / M4.1 starting with 32 lanes: implement the signed-INT4 golden reference model, interface contract, parameter/width/depth assertions, and regression tests before adding memory RTL. Keep the validated Run #267 Dadda core immutable.
+- **Status:** Milestone #3 complete; Milestone #4 unlocked; M4.1 not yet started. This is a handoff record, not a claim that M4.1 work has been executed.
+
+
+---
+
+## EGS-0015 — Resume ORCUS; reconcile PR #22 history and begin M4.1 — 2026-11-28
+
+- **Execution issue:** [EGS-0015 / Issue #37](https://github.com/bio-ctrl/EGS/issues/37), following EGS-0014 / Issue #36.
+- **Session start:** fetched and read the latest `STATUS.md` from `main` before repository actions.
+- **PR #22 state:** open, unmerged, Ready for review (`draft=false`), head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; GitHub reports `mergeable=false`. Base SHA is `9b035b805ae208c262ea5cee12de6afa17f8e088`.
+- **History diagnostic:** compare `main` against `research/orcus-ecp5-dadda-pipeline` reports `diverged`, 44 commits ahead and 77 behind. The current main commit at diagnostic time was `3a9dd4d5b9cee650f3cc815ce2e7237bbc746313`.
+- **STATUS conflict:** PR branch STATUS blob `a9d5f5eac04292e66bb835ec22a1a3a63069bd76` predates EGS-0014 and contains stale handoff text. Main STATUS already contains the PR branch's sections 259–275 and the EGS-0014 handoff, so authoritative main STATUS is the intended conflict resolution.
+- **Pipeline files:** `benchmarks/dadda_pipeline.py`, `benchmarks/fpga_ecp5_pipeline.py`, `orcus/dadda_pipeline.py`, and `tests/test_dadda_pipeline.py` exist on the PR branch and not on main. The PR branch CI includes the pipelined Dadda test/run/artifact steps and retains main's `paths-ignore: STATUS.md` workflow rule.
+- **Actions in this execution:** read-only diagnostics plus creation of Issue #37. No branch refs, files, PR state, or CI runs have been changed. No new tests/formal/simulation/P&R have run.
+- **Next action:** construct a merge commit on the PR head with current main as the second parent, using main STATUS and preserving the PR's four pipeline files plus combined CI workflow. Advance the PR branch by a normal fast-forward ref update only; then verify PR #22 remains open/Ready and that mergeability and CI are clean. Never merge PR #22 into main without explicit human approval.
+- **After PR reconciliation:** create `research/orcus-inference-tile` from exact validated Run #267 head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; start M4.1 at 32 lanes with golden reference model, interface contract, parameter/width/depth assertions, and regression tests. No memory RTL until M4.1 artifacts/tests are in place.
+- **Boundaries:** PR #21 untouched; Run #262 and Run #267 preserved; Ceres untouched; NEM isolated. No silicon or board-level claims.
+- **Status:** in progress; M4.1 not started.
