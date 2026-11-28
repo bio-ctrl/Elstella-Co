@@ -15,11 +15,14 @@
 
 > **CURRENT AUTHORITATIVE HANDOFF (2026-11-28, M4.3 IN PROGRESS):** EGS-0017 / [Issue #40](https://github.com/bio-ctrl/EGS/issues/40) tracks M4.3. Starting validated branch head was `4b68ea908416d0dbb65fa36efaef06f6adcb43a3`; implementation is now at `4cf5c2a9c332eaaa60fe1192fa5da8ee7e56b565` on `research/orcus-inference-tile`. Added `orcus/rtl/orcus_kloop_controller.sv`, `tests/test_kloop_controller_rtl.py`, updated `docs/ORCUS_INFERENCE_TILE_V1.md`, and added the test to `.github/workflows/ci.yml`. The controller uses widened end-exclusive bounds checks, synchronous-read-aligned registered tags, rejects K=0/wrap/first-row write collision, ignores overlapping starts while busy, flushes on reset, and accepts a replacement request on the exact downstream `pipeline_done` edge. `pipeline_done` is supplied by the later Dadda-plus-accumulator integration; M4.3 does not implement the accumulator. Exact-head [Run #273](https://github.com/bio-ctrl/EGS/actions/runs/46169004609) is currently in progress against `4cf5c2a9c332eaaa60fe1192fa5da8ee7e56b565`; no M4.3 simulation/CI pass is claimed yet. The execution environment has no local Icarus binaries, so simulator validation is pending exact-head CI. PR #38 remains Draft and unmerged; PR #22 remains open and unmerged; PR #21, Run #262, and Run #267 are preserved; Ceres untouched; NEM isolated. Exact next action: inspect every job/step in Run #273, fix any failures on a new commit, and only then mark M4.3 validated.
 
+
+> **M4.3 DIAGNOSTIC UPDATE (2026-11-28):** Exact-head Run #273 (ID `46169004609`) failed against `4cf5c2a9c332eaaa60fe1192fa5da8ee7e56b565`. Both general unit tests and the ECP5 job reached the new K-loop suite; all four lane subtests failed on the first request because the testbench did not initialize the controller with its required synchronous reset. Existing scratchpad tests and the earlier Dadda ECP5 implementation step passed. The RTL was not implicated by the reported first-beat failure; testbench reset sequencing was corrected in `dc8011012d90ce5dedcfee9e68b3dcdc0cf3ee16`. The failure is preserved in EGS-0017 / [Issue #40](https://github.com/bio-ctrl/EGS/issues/40). The fix requires a fresh exact-head CI run; M4.3 remains IN PROGRESS. Next: inspect CI for `dc8011012d90ce5dedcfee9e68b3dcdc0cf3ee16`, then correct any further failures before validation.
+
 ---
 
 > **PERMANENT MANDATORY HANDOFF RULE — EVERY ACTION, EVERY SESSION:** "Read `STATUS.md` on `main` first, never fabricate numbers, keep Ceres untouched, and update and commit `STATUS.md` on `main` after EVERY single action, experiment, diagnostic, failure, timeout, or milestone—permanently across every session—so a future AI session with zero chat history can recover the exact state immediately."
 
-**Last updated:** 2026-11-28T17:11:00Z
+**Last updated:** 2026-11-28T17:13:00Z
 **Repository:** `bio-ctrl/EGS`  
 **Status scope:** Parent-company mission, project boundaries, verified engineering evidence, and active research queue.
 
