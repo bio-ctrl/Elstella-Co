@@ -203,7 +203,7 @@ module tb;
         // Same-cycle host write to the first requested address is rejected.
         @(negedge clk);
         start = 1; base_addr = 3; k_length = 1;
-        wr_addr = 3; a_we = 1;
+        wr_addr = 3; a_we = 1; a_wdata = pattern_a(3);
         @(posedge clk); #1;
         if (busy || valid || first || last || rd_en)
             $fatal(1, "start/write address collision was not rejected");
