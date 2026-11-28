@@ -149,7 +149,7 @@ jobs:
       - name: Test ORCUS K-loop controller and synchronous tag alignment
         run: python -m unittest discover -s tests -p 'test_kloop_controller_rtl.py' -v
 
-      - name: Test complete ORCUS inference tile across all lane geometries
+      - name: Test ORCUS inference tile and prove accumulator bounds with Yosys SAT
         run: python -m unittest discover -s tests -p 'test_inference_tile_rtl.py' -v
 
       - name: Upload M4.4 inference tile regression evidence

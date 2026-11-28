@@ -300,6 +300,70 @@ class InferenceTileRTLTests(unittest.TestCase):
             "geometries": reports,
         }, indent=2) + "\n")
 
+    @unittest.skipUnless(shutil.which("yosys"), "Yosys is required for SAT proof")
+    def test_yosys_sat_proves_20_bit_accumulator_no_overflow(self) -> None:
+        proof_reports = []
+        minimum, maximum = signed_bounds(20)
+        for lanes in (4, 8, 16, 32):
+            cfg = TileConfig(lanes)
+            dot_width = cfg.dot_width_bits
+            prefix_min = -56 * lanes * (cfg.maximum_k - 1)
+            prefix_max = 64 * lanes * (cfg.maximum_k - 1)
+            dot_min = -56 * lanes
+            dot_max = 64 * lanes
+            top = f"orcus_accumulator_bound_miter_{lanes}"
+            source = f"""module {top}(
+    input wire signed [19:0] accum,
+    input wire signed [{dot_width-1}:0] dot,
+    output wire bad
+);
+    wire signed [20:0] accum_ext = {{accum[19], accum}};
+    wire signed [20:0] dot_ext =
+        {{{{(21-{dot_width}){{dot[{dot_width-1}]}}}}, dot}};
+    wire signed [20:0] sum_ext = accum_ext + dot_ext;
+    wire prefix_in_range =
+        ($signed(accum) >= ({prefix_min})) &&
+        ($signed(accum) <= ({prefix_max}));
+    wire row_in_range =
+        ($signed(dot) >= ({dot_min})) &&
+        ($signed(dot) <= ({dot_max}));
+    wire sum_in_signed_20_range =
+        ($signed(sum_ext) >= ({minimum})) &&
+        ($signed(sum_ext) <= ({maximum}));
+    assign bad = prefix_in_range && row_in_range && !sum_in_signed_20_range;
+endmodule
+"""
+            with self.subTest(lanes=lanes), tempfile.TemporaryDirectory() as temp:
+                miter = Path(temp) / f"{top}.sv"
+                miter.write_text(source)
+                result = subprocess.run(
+                    ["yosys", "-p",
+                     f"read_verilog -formal {miter}; prep -top {top}; sat -verify -prove bad 0"],
+                    cwd=ROOT, text=True, capture_output=True, check=False, timeout=120,
+                )
+                output = result.stdout + result.stderr
+                self.assertEqual(result.returncode, 0, output)
+                self.assertIn("SUCCESS", output)
+                proof_reports.append({
+                    "lanes": lanes,
+                    "depth": cfg.maximum_k,
+                    "prefix_accumulator_bounds": [prefix_min, prefix_max],
+                    "row_dot_bounds": [dot_min, dot_max],
+                    "full_depth_result_bounds": [-56*lanes*cfg.maximum_k,
+                                                 64*lanes*cfg.maximum_k],
+                    "signed_20_bit_bounds": [minimum, maximum],
+                    "yosys_sat": "PASS",
+                    "proof_log_sha256": hashlib.sha256(output.encode()).hexdigest(),
+                })
+        evidence_dir = Path(tempfile.gettempdir()) / "orcus-inference-tile-m4-4"
+        evidence_dir.mkdir(parents=True, exist_ok=True)
+        (evidence_dir / "formal_bounds.json").write_text(json.dumps({
+            "schema": "orcus-m4-4-accumulator-sat-proof-v1",
+            "status": "PASS",
+            "method": "Yosys SAT: prove bad == 0 for every supported lane geometry",
+            "geometries": proof_reports,
+        }, indent=2) + "\n")
+
     def test_twenty_bit_accumulator_bounds_for_every_geometry(self) -> None:
         minimum, maximum = signed_bounds(20)
         for lanes in (4, 8, 16, 32):
