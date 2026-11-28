@@ -143,6 +143,20 @@ jobs:
           path: /tmp/orcus-fpga-ecp5-pipelined-dadda
           if-no-files-found: warn
 
+      - name: Test ORCUS A/B operand scratchpad RTL
+        run: python -m unittest discover -s tests -p 'test_operand_scratchpad_rtl.py' -v
+
+      - name: Prove scratchpad DP16KD inference and place 32-lane harness
+        run: python -u benchmarks/fpga_ecp5_scratchpad.py --require-tools --freq 100 --seed 1 --outdir /tmp/orcus-fpga-ecp5-scratchpad
+
+      - name: Upload scratchpad ECP5 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orcus-fpga-ecp5-scratchpad
+          path: /tmp/orcus-fpga-ecp5-scratchpad
+          if-no-files-found: warn
+
       - name: Run 4/8/16/32-lane ECP5 synthesis and place-and-route
         run: |
           python -u benchmarks/fpga_ecp5.py --require-tools --freq 100 --seed 1 \

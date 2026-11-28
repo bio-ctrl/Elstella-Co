@@ -103,13 +103,26 @@ Under this edge-count convention, the target is:
 
 For K = 1 this reduces to L + 2. For 32 lanes, L = 11, so the target is 13 cycles for K=1 and 140 cycles for K=128. These are derived design targets, not measured RTL behavior. M4.3/M4.4 must prove the exact edge alignment with cycle-accurate tests and formal checks before any latency claim is promoted to verified evidence.
 
-## 7. M4.1 acceptance checklist
+## 7. M4.2 scratchpad RTL contract
+
+The M4.2 RTL implements each operand store as a synchronous simple-dual-port RAM (one host write port and one compute read port). A and B are independent instances with independent write enables and data buses; both use the same host write address and compute read address in the inference-tile wrapper.
+
+- Word width is exactly N*4 bits; depth is exactly 16,384/(N*4) words.
+- Reads are registered on the rising edge when rd_en is high; rd_data holds when rd_en is low.
+- Writes commit on the rising edge when the corresponding operand write enable is high.
+- A read and write may occur on the same edge only when their addresses differ.
+- Same-address read/write collisions are prohibited and are simulation-fatal. No read-first or write-first semantics are specified or relied upon.
+- Memory contents are not reset; only read data is registered. The inference tile controller is responsible for preventing reads of uninitialized rows.
+- The RTL's block-RAM attribute is an implementation hint, not evidence. M4.2 acceptance requires mapped Yosys JSON to contain exactly 1/1/2/4 DP16KD blocks per operand for 4/8/16/32 lanes, with no distributed-RAM cells or generic memory cells remaining. LUT4 glue logic is reported separately.
+- A low-I/O 32-lane harness is used for nextpnr placement because exposing the full two-memory data interface exceeds the selected package's user-I/O count. External IO constraints remain absent; this P&R is not board-level validation.
+
+## 9. M4.1 acceptance checklist
 
 - [x] Pure-Python signed INT4 row-dot-product and K-row MAC reference.
 - [x] Fixed memory dimensions, W_DOT/W_ACC, address widths, K widths, and Run #267 core latency constants.
 - [x] Packed INT4 nibble ordering and round-trip helpers.
 - [x] Interface contract, reset/write/collision/address semantics, and latency derivation.
-- [ ] Run unit tests on the exact branch head.
-- [ ] Open a review PR and obtain an exact-head CI pass.
+- [x] Run unit tests on the exact branch head (Run #269).
+- [x] Open a review PR and obtain an exact-head CI pass (PR #38 / Run #269).
 
-No memory RTL is part of M4.1. M4.2 implements the A/B synchronous true-dual-port scratchpads and proves DP16KD inference.
+M4.1 contains no memory RTL. M4.2 implements the A/B synchronous 1R1W scratchpads and proves DP16KD inference.
