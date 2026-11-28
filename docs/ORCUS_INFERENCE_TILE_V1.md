@@ -147,3 +147,19 @@ The controller exposes `pipeline_done` as an integration input from the downstre
 - [x] Open a review PR and obtain an exact-head CI pass (PR #38 / Run #269).
 
 M4.1 contains no memory RTL. M4.2 implements the A/B synchronous 1R1W scratchpads and proves DP16KD inference.
+
+
+## 10. M4.4 integrated inference tile — implementation candidate
+
+The M4.4 integration candidate is `orcus/rtl/orcus_inference_tile.sv`. It composes the existing A/B scratchpads, M4.3 K-loop controller, and generated `orcus_dadda_pipelined_{4,8,16,32}` core without changing the validated Dadda core internals.
+
+The wrapper sign-extends each row dot product into a signed 20-bit path. It delays the controller's `valid`, `first`, and `last` tags through an L+1-register companion path so the accumulator samples the tags on the same edge as the Dadda core's registered `out_data`/`out_valid`. The first beat initializes the accumulation context; subsequent beats add; the last beat commits `result_data`, pulses `result_valid` and `done`, and supplies `pipeline_done` to the K-loop controller. Synchronous reset clears the accumulator, result pulse, Dadda pipeline, controller, and companion tags. The memories are not reset.
+
+The 20-bit signed accumulator range is sufficient at every supported maximum K:
+- Maximum positive: `32 * 64 * 128 = 262,144`.
+- Maximum negative: `32 * (-56) * 128 = -229,376`.
+- Signed 20-bit range: `[-524,288, 524,287]`.
+
+The generated Dadda RTL is emitted by `orcus.dadda_pipeline.generate_dadda_pipelined(lanes)` into the test's temporary directory; it is not a checked-in generated source file. `tests/test_inference_tile_rtl.py` is intended to compile that generated core together with the scratchpads, controller, and integration wrapper. Its acceptance workload is 512 memory-fed transactions per geometry, plus full-depth requests, signed extrema, reset flush, invalid request rejection, and completion-edge chaining, with expected results computed in the self-checking SystemVerilog testbench. A separate Python assertion checks the full-depth arithmetic bounds.
+
+**M4.4 status:** implementation candidate only until the testbench compiles and passes on all four geometries, exact-head CI completes successfully, and every uploaded evidence artifact is downloaded and SHA-256 verified. No M4.4 validation, physical implementation, board-level, or silicon claim is made by this specification update.
