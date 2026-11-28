@@ -10,13 +10,13 @@
 > - "Big dreams push past what other people view as possible, often because 'unrealistic' just means a goal hasn't been done yet by the people around you. You have to dream unrealistic because life is not realistic"
 > - "Get what I want and when I want it"
 
-> **CURRENT AUTHORITATIVE HANDOFF (2026-11-28):** EGS-0014 / Issue #36 closes this session after the verified Run #267 audit. Milestone #3 technical gates are complete for 4/8/16/32 lanes at exact validated head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; recorded ECP5 post-route Fmax is 335.9086 / 313.2832 / 313.6763 / 324.1491 MHz (4/8/16/32 lanes), with formal and 512-vector streaming/flush/reset-leakage gates passing. PR #22 remains Ready for review, open and unmerged; its `STATUS.md` merge conflict / `mergeable_state=dirty` condition is unresolved. **Exact next-session sequence:** (1) reconcile PR #22's `STATUS.md` merge conflict/base-history condition, verify Ready-for-review state, and rerun CI on the merge candidate; do not merge without explicit human approval; (2) create `research/orcus-inference-tile` from validated commit `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; (3) execute Milestone #4 / M4.1 starting with 32 lanes: signed-INT4 golden reference model, interface contract, parameter/width/depth assertions, and regression tests, before adding memory RTL. Keep Run #267 Dadda core immutable. PR #21 untouched; Run #262 and Run #267 preserved; Ceres untouched; NEM isolated. ECP5 results are FPGA implementation evidence only; external IOs are unconstrained. No silicon or board-level claims.
+> **CURRENT AUTHORITATIVE HANDOFF (2026-11-28):** EGS-0015 / [Issue #37](https://github.com/bio-ctrl/EGS/issues/37) is active. Session-start read of `main` verified EGS-0014 / Issue #36 and PR #22. PR #22 remains open, Ready for review (`draft=false`), and unmerged at head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; GitHub reports `mergeable=false`. Comparing `main` to `research/orcus-ecp5-dadda-pipeline` reports diverged history (44 commits ahead / 77 behind); PR base SHA is stale at `9b035b805ae208c262ea5cee12de6afa17f8e088`. The PR branch STATUS is stale; authoritative main already contains sections 259–275 and EGS-0014. Its CI workflow contains the pipelined-Dadda validation steps and the current `paths-ignore: STATUS.md` rule. Four pipeline source/test files are only on the PR branch. **Exact active sequence:** (1) construct a non-destructive merge commit on the PR head with current main as second parent, preserving the four pipeline files, merged CI workflow, and authoritative main STATUS; update the PR head only by normal fast-forward and verify mergeability/Ready state; do not merge PR #22 into main; (2) create `research/orcus-inference-tile` from validated Run #267 commit `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; (3) begin M4.1 at 32 lanes with signed-INT4 golden model, interface contract, parameter/width/depth assertions, and regression tests before memory RTL. If safe merge-candidate construction or verification is unavailable, stop and record the blocker. PR #21 untouched; Run #262 and Run #267 preserved; Ceres untouched; NEM isolated. FPGA-only evidence; no silicon or board-level claims.
 
 ---
 
 > **PERMANENT MANDATORY HANDOFF RULE — EVERY ACTION, EVERY SESSION:** "Read `STATUS.md` on `main` first, never fabricate numbers, keep Ceres untouched, and update and commit `STATUS.md` on `main` after EVERY single action, experiment, diagnostic, failure, timeout, or milestone—permanently across every session—so a future AI session with zero chat history can recover the exact state immediately."
 
-**Last updated:** 2026-11-28T06:17:00Z
+**Last updated:** 2026-11-28T16:24:30Z
 **Repository:** `bio-ctrl/EGS`  
 **Status scope:** Parent-company mission, project boundaries, verified engineering evidence, and active research queue.
 
@@ -3436,3 +3436,20 @@ Run #262 is the immutable **combinational** Fused Dadda baseline; Run #267 is th
 - **Preservation:** PR #21 untouched; Run #262 and Run #267 preserved; Ceres untouched; NEM isolated.
 - **Exact next action — sequence:** (1) reconcile PR #22's `STATUS.md` conflict and verify it remains Ready for review, then rerun CI on the merge candidate; do not merge; (2) create `research/orcus-inference-tile` from validated commit `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; (3) execute Milestone #4 / M4.1 starting with 32 lanes: implement the signed-INT4 golden reference model, interface contract, parameter/width/depth assertions, and regression tests before adding memory RTL. Keep the validated Run #267 Dadda core immutable.
 - **Status:** Milestone #3 complete; Milestone #4 unlocked; M4.1 not yet started. This is a handoff record, not a claim that M4.1 work has been executed.
+
+
+---
+
+## EGS-0015 — Resume ORCUS; reconcile PR #22 history and begin M4.1 — 2026-11-28
+
+- **Execution issue:** [EGS-0015 / Issue #37](https://github.com/bio-ctrl/EGS/issues/37), following EGS-0014 / Issue #36.
+- **Session start:** fetched and read the latest `STATUS.md` from `main` before repository actions.
+- **PR #22 state:** open, unmerged, Ready for review (`draft=false`), head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; GitHub reports `mergeable=false`. Base SHA is `9b035b805ae208c262ea5cee12de6afa17f8e088`.
+- **History diagnostic:** compare `main` against `research/orcus-ecp5-dadda-pipeline` reports `diverged`, 44 commits ahead and 77 behind. The current main commit at diagnostic time was `3a9dd4d5b9cee650f3cc815ce2e7237bbc746313`.
+- **STATUS conflict:** PR branch STATUS blob `a9d5f5eac04292e66bb835ec22a1a3a63069bd76` predates EGS-0014 and contains stale handoff text. Main STATUS already contains the PR branch's sections 259–275 and the EGS-0014 handoff, so authoritative main STATUS is the intended conflict resolution.
+- **Pipeline files:** `benchmarks/dadda_pipeline.py`, `benchmarks/fpga_ecp5_pipeline.py`, `orcus/dadda_pipeline.py`, and `tests/test_dadda_pipeline.py` exist on the PR branch and not on main. The PR branch CI includes the pipelined Dadda test/run/artifact steps and retains main's `paths-ignore: STATUS.md` workflow rule.
+- **Actions in this execution:** read-only diagnostics plus creation of Issue #37. No branch refs, files, PR state, or CI runs have been changed. No new tests/formal/simulation/P&R have run.
+- **Next action:** construct a merge commit on the PR head with current main as the second parent, using main STATUS and preserving the PR's four pipeline files plus combined CI workflow. Advance the PR branch by a normal fast-forward ref update only; then verify PR #22 remains open/Ready and that mergeability and CI are clean. Never merge PR #22 into main without explicit human approval.
+- **After PR reconciliation:** create `research/orcus-inference-tile` from exact validated Run #267 head `1c65a44fbfe099a0f383494dbbdfe06f5e9bf60a`; start M4.1 at 32 lanes with golden reference model, interface contract, parameter/width/depth assertions, and regression tests. No memory RTL until M4.1 artifacts/tests are in place.
+- **Boundaries:** PR #21 untouched; Run #262 and Run #267 preserved; Ceres untouched; NEM isolated. No silicon or board-level claims.
+- **Status:** in progress; M4.1 not started.
