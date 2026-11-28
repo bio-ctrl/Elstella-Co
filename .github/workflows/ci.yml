@@ -146,6 +146,9 @@ jobs:
       - name: Test ORCUS A/B operand scratchpad RTL
         run: python -m unittest discover -s tests -p 'test_operand_scratchpad_rtl.py' -v
 
+      - name: Test ORCUS K-loop controller and synchronous tag alignment
+        run: python -m unittest discover -s tests -p 'test_kloop_controller_rtl.py' -v
+
       - name: Prove scratchpad DP16KD inference and place 32-lane harness
         run: python -u benchmarks/fpga_ecp5_scratchpad.py --require-tools --freq 100 --seed 1 --outdir /tmp/orcus-fpga-ecp5-scratchpad
 

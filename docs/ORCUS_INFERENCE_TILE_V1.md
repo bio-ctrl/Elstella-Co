@@ -1,6 +1,6 @@
 # ORCUS MAC + Local-Memory Inference Tile v1 — M4.1 Contract
 
-**Status:** M4.1 specification and Python reference model. No tile RTL or scratchpad RTL is implemented in this milestone.
+**Status:** M4.1 Python reference model, M4.2 synchronous A/B scratchpads, and M4.3 K-loop controller/tag RTL are implemented; downstream accumulator integration remains later work.
 
 ## 1. Scope and baseline
 
@@ -115,6 +115,27 @@ The M4.2 RTL implements each operand store as a synchronous simple-dual-port RAM
 - Memory contents are not reset; only read data is registered. The inference tile controller is responsible for preventing reads of uninitialized rows.
 - The RTL's block-RAM attribute is an implementation hint, not evidence. M4.2 acceptance requires mapped Yosys JSON to contain exactly 1/1/2/4 DP16KD blocks per operand for 4/8/16/32 lanes, with no distributed-RAM cells or generic memory cells remaining. LUT4 glue logic is reported separately.
 - A low-I/O 32-lane harness is used for nextpnr placement because exposing the full two-memory data interface exceeds the selected package's user-I/O count. External IO constraints remain absent; this P&R is not board-level validation.
+
+
+## 8. M4.3 K-loop controller and tag timing
+
+The M4.3 controller issues one contiguous A/B row read per cycle. It is parameterized by the same four lane geometries and derives `DEPTH`, `ADDR_WIDTH`, and `K_WIDTH` from the fixed 16,384-bit operand capacity.
+
+### Request acceptance and bounds
+
+- `start` is accepted only while idle, or on the exact `pipeline_done` edge of the preceding transaction. A start while busy is ignored; it cannot replace or interleave the active request.
+- A request is accepted only when `1 <= k_length <= DEPTH`, `base_addr < DEPTH`, and the widened end-exclusive sum `base_addr + k_length <= DEPTH`. The sum is extended before comparison, so address arithmetic cannot wrap at the address width.
+- `K=0`, out-of-range base/end addresses, and a same-cycle host write to the first requested address are rejected without asserting `rd_en` or any tag.
+- Host writes are permitted only while `busy=0`. A host write while busy, a read/write same-address collision, or `pipeline_done` before the final row has been issued is simulation-fatal. The v1 interface has no error output.
+- There is one accumulation context. A new request may be presented with `start` on the completion edge, allowing the next first-row read on that edge with no additional inter-transaction acceptance bubble.
+
+### Synchronous read and tag edge convention
+
+The controller drives `rd_en` and `rd_addr` combinationally for the upcoming rising edge. The scratchpad captures the addressed word on that edge. In parallel, the controller registers `valid`, `first`, and `last` from the exact same read-issue event. Immediately after the edge, each asserted tag describes the corresponding registered `a_rd_data` / `b_rd_data` word. A read-disabled cycle clears all three tags; scratchpad data itself holds per M4.2.
+
+For row index `i`, addresses are `base_addr + i` for `i=0..K-1`. `first` is true only for `i=0`, `last` only for `i=K-1`, and `valid` is true on every issued row. For `K=1`, first and last assert together on the sole valid beat. Tags are cleared by synchronous reset and cannot survive a rejected request or reset abort.
+
+The controller exposes `pipeline_done` as an integration input from the downstream Dadda-plus-accumulator result path. It holds `busy` through pipeline drain, and clears it on result completion. The M4.1 derived request-to-result edge count remains `K + L + 1` from the acceptance edge; M4.3 RTL tests model that completion edge using the execution-verified `L` values 6/8/10/11. This controller milestone verifies issue/tag alignment and request sequencing, not the complete arithmetic accumulator.
 
 ## 9. M4.1 acceptance checklist
 
