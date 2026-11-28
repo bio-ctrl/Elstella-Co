@@ -18,11 +18,14 @@
 
 > **M4.3 DIAGNOSTIC UPDATE (2026-11-28):** Exact-head Run #273 (ID `46169004609`) failed against `4cf5c2a9c332eaaa60fe1192fa5da8ee7e56b565`. Both general unit tests and the ECP5 job reached the new K-loop suite; all four lane subtests failed on the first request because the testbench did not initialize the controller with its required synchronous reset. Existing scratchpad tests and the earlier Dadda ECP5 implementation step passed. The RTL was not implicated by the reported first-beat failure; testbench reset sequencing was corrected in `dc8011012d90ce5dedcfee9e68b3dcdc0cf3ee16`. The failure is preserved in EGS-0017 / [Issue #40](https://github.com/bio-ctrl/EGS/issues/40). The fix requires a fresh exact-head CI run; M4.3 remains IN PROGRESS. Next: inspect CI for `dc8011012d90ce5dedcfee9e68b3dcdc0cf3ee16`, then correct any further failures before validation.
 
+
+> **M4.3 DIAGNOSTIC UPDATE 2 (2026-11-28):** Exact-head Run #274 (ID `46169247992`) failed the general unit-test job during the overlap/reset sequence. The collision-rejection test intentionally asserted a legal host write to address 3 but left `a_wdata` holding the final-address initialization pattern; that write changed row 3, and the later expected-data check correctly detected the changed memory content. This was a testbench setup/oracle defect, not evidence of a controller address-generation defect. Corrected the collision stimulus to write the existing expected `pattern_a(3)` value in commit `f3563fe45603b86eec51c9dd8f1a6e191c4fb1a8`. Run #273's missing-reset failure and Run #274's memory-stimulus failure are both preserved in [EGS-0017 / Issue #40](https://github.com/bio-ctrl/EGS/issues/40). M4.3 remains IN PROGRESS; exact-head CI for `f3563fe45603b86eec51c9dd8f1a6e191c4fb1a8` is pending. Next: inspect the new run, then address any further failure without rewriting prior evidence.
+
 ---
 
 > **PERMANENT MANDATORY HANDOFF RULE — EVERY ACTION, EVERY SESSION:** "Read `STATUS.md` on `main` first, never fabricate numbers, keep Ceres untouched, and update and commit `STATUS.md` on `main` after EVERY single action, experiment, diagnostic, failure, timeout, or milestone—permanently across every session—so a future AI session with zero chat history can recover the exact state immediately."
 
-**Last updated:** 2026-11-28T17:13:00Z
+**Last updated:** 2026-11-28T17:16:00Z
 **Repository:** `bio-ctrl/EGS`  
 **Status scope:** Parent-company mission, project boundaries, verified engineering evidence, and active research queue.
 
