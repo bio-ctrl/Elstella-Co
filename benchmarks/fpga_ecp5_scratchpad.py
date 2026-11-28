@@ -86,10 +86,14 @@ def main() -> int:
         return 0
 
     args.outdir.mkdir(parents=True, exist_ok=True)
+    nextpnr_version_result = subprocess.run([nextpnr, "--version"], text=True, capture_output=True, check=False)
+    nextpnr_version_text = (nextpnr_version_result.stdout + nextpnr_version_result.stderr).strip()
+    if not nextpnr_version_text:
+        raise RuntimeError("could not read nextpnr-ecp5 version")
     summary = {
         "experiment": "ORCUS M4.2 A/B operand scratchpad DP16KD mapping",
         "yosys_version": subprocess.run([yosys, "-V"], text=True, capture_output=True).stdout.strip(),
-        "nextpnr_ecp5_version": subprocess.run([nextpnr, "--version"], text=True, capture_output=True).stdout.strip(),
+        "nextpnr_ecp5_version": nextpnr_version_text.splitlines()[0],
         "target": {"family": "Lattice ECP5", "device_option": "--85k",
                    "package": "CABGA381", "speed_grade": 6},
         "configurations": [],
